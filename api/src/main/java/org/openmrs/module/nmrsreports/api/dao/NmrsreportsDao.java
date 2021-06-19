@@ -10,11 +10,18 @@
 package org.openmrs.module.nmrsreports.api.dao;
 
 import org.hibernate.criterion.Restrictions;
+import org.openmrs.api.APIException;
 import org.openmrs.api.db.hibernate.DbSession;
 import org.openmrs.api.db.hibernate.DbSessionFactory;
+import org.openmrs.module.Module;
+import org.openmrs.module.ModuleFactory;
 import org.openmrs.module.nmrsreports.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository("nmrsreports.NmrsreportsDao")
 public class NmrsreportsDao {
@@ -33,5 +40,10 @@ public class NmrsreportsDao {
 	public Item saveItem(Item item) {
 		getSession().saveOrUpdate(item);
 		return item;
+	}
+	
+	public List<Module> getModules() throws APIException {
+		ArrayList<Module> m = ModuleFactory.getLoadedModules().stream().collect(Collectors.toCollection(ArrayList::new));
+		return m;
 	}
 }

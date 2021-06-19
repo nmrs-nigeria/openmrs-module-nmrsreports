@@ -11,6 +11,8 @@ package org.openmrs.module.nmrsreports;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.GlobalProperty;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.BaseModuleActivator;
 
 /**
@@ -24,7 +26,16 @@ public class NmrsreportsActivator extends BaseModuleActivator {
 	 * @see #started()
 	 */
 	public void started() {
-		log.info("Started Nmrsreports");
+		
+		new ReportsInitializer().started();
+		
+		// set visit handler
+		GlobalProperty globalProperty = Context.getAdministrationService().getGlobalPropertyObject(
+		    "visits.assignmentHandler");
+		globalProperty.setPropertyValue("org.openmrs.api.handler.ExistingOrNewVisitAssignmentHandler");
+		Context.getAdministrationService().saveGlobalProperty(globalProperty);
+		
+		log.info("Started NMRS Nmrsreporting Module ");
 	}
 	
 	/**

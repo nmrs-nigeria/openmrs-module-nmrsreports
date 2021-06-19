@@ -12,9 +12,12 @@ package org.openmrs.module.nmrsreports.api;
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
+import org.openmrs.module.Module;
 import org.openmrs.module.nmrsreports.NmrsreportsConfig;
 import org.openmrs.module.nmrsreports.Item;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * The main service of this module, which is exposed for other modules. See
@@ -45,4 +48,8 @@ public interface NmrsreportsService extends OpenmrsService {
 	@Authorized(NmrsreportsConfig.MODULE_PRIVILEGE)
 	@Transactional
 	Item saveItem(Item item) throws APIException;
+	
+	@Authorized(NmrsreportsConfig.MODULE_PRIVILEGE)
+	@Transactional
+	List<Module> getModules() throws APIException;
 }

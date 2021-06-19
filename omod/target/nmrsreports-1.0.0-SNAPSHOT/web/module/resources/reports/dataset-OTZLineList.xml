@@ -1,0 +1,111 @@
+<org.openmrs.module.reporting.dataset.definition.SqlDataSetDefinition id="1" uuid="287920c5-2e27-4c5d-af76-589f45743a94" retired="false">
+  <name>OTZLineList</name>
+  <description>An excel export of the OTZ form variables</description>
+  <creator id="2" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
+  <dateCreated id="3">2021-04-28 15:27:30 UTC</dateCreated>
+  <changedBy reference="2"/>
+  <dateChanged id="4">2021-05-05 10:27:33 UTC</dateChanged>
+  <parameters id="5">
+    <org.openmrs.module.reporting.evaluation.parameter.Parameter id="6">
+      <name>startDate</name>
+      <label>OTZ Start Date</label>
+      <type>java.util.Date</type>
+      <required>true</required>
+    </org.openmrs.module.reporting.evaluation.parameter.Parameter>
+    <org.openmrs.module.reporting.evaluation.parameter.Parameter id="7">
+      <name>endDate</name>
+      <label>OTZ End Date</label>
+      <type>java.util.Date</type>
+      <required>true</required>
+    </org.openmrs.module.reporting.evaluation.parameter.Parameter>
+    <org.openmrs.module.reporting.evaluation.parameter.Parameter id="8">
+      <name>cutoffDate</name>
+      <label>Follow Up Period</label>
+      <type>java.util.Date</type>
+      <required>true</required>
+    </org.openmrs.module.reporting.evaluation.parameter.Parameter>
+  </parameters>
+  <id>245</id>
+  <sqlQuery>SELECT&#xd;
+   global_property.property_value as DatimCode,&#xd;
+   pid2.identifier as PepfarID,&#xd;
+   pid3.identifier as HospID,&#xd;
+   person.gender as Sex,&#xd;
+   DATE_FORMAT(person.birthdate,&apos;%d-%b-%Y&apos;) as DOB,&#xd;
+   TIMESTAMPDIFF(YEAR,person.birthdate,enc.encounter_datetime) as `AgeAtEnrollment`,&#xd;
+   TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) as `CurrentAge`,&#xd;
+   visit.visit_id as VisitID,&#xd;
+   DATE_FORMAT(enc.encounter_datetime,&apos;%d-%b-%Y&apos;) as DateEnrolledIntoOTZ,&#xd;
+   DATE_FORMAT(getdatevalueobsid(getmaxconceptobsid(patient.patient_id,5096,enc.encounter_datetime)),&apos;%d-%b-%Y&apos;) as `AppointmentDateBeforeEnrollment`,&#xd;
+   getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,165708,27,enc.encounter_datetime)) as `PickupDateBeforeEnrollment`,&#xd;
+   getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165290,14,enc.encounter_datetime)) as `AdherenceBeforeEnrollment`,&#xd;
+   getnumbericvalueobsid(getmaxconceptobsid(patient.patient_id,856,enc.encounter_datetime)) as `ViralLoadBeforeEnrollment`,&#xd;
+   DATE_FORMAT(getobsdatetime(getmaxconceptobsid(patient.patient_id,856,enc.encounter_datetime)),&apos;%d-%b-%Y&apos;) as `ViralLoadBeforeEnrollmentDate`,&#xd;
+   &#xd;
+   getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,165708,27,&#xd;
+   :cutoffDate)) as `LastPickupDate`,&#xd;
+   getconceptval(getmaxconceptobsid(patient.patient_id,162240,:cutoffDate),159368,patient.patient_id) as `DaysOfARVRefil`,&#xd;
+   DATE_FORMAT(getdatevalueobsid(getmaxconceptobsid(patient.patient_id,5096,:cutoffDate)),&apos;%d-%b-%Y&apos;) as `AppointmentDateFollowup`,&#xd;
+   getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,165708,27,:cutoffDate)) as `PickupDateFollowUp`,&#xd;
+   getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165290,14,:cutoffDate)) as `AdherenceFollowUp`,&#xd;
+   getnumbericvalueobsid(getmaxconceptobsid(patient.patient_id,856,:cutoffDate)) as `ViralLoadFollowUp`,&#xd;
+   DATE_FORMAT(getobsdatetime(getmaxconceptobsid(patient.patient_id,856,:cutoffDate)),&apos;%d-%b-%Y&apos;) as `ViralLoadFollowUpDate`,&#xd;
+   getcodedvalueobsid(getmaxconceptobsidwithformidvaluecoded(patient.patient_id,165708,27,164507,:cutoffDate)) as `LastPedFirstLine`,&#xd;
+   getobsdatetime(getmaxconceptobsidwithformidvaluecoded(patient.patient_id,165708,27,164507,:cutoffDate)) `LastPedFirstLineDate`,&#xd;
+   getcodedvalueobsid(getmaxconceptobsidwithformidvaluecoded(patient.patient_id,165708,27,164514,:cutoffDate)) as `LastPedSecondLine`,&#xd;
+   getobsdatetime(getmaxconceptobsidwithformidvaluecoded(patient.patient_id,165708,27,164514,:cutoffDate)) `LastPedSecondLineDate`,&#xd;
+   getcodedvalueobsid(getmaxconceptobsidwithformidvaluecoded(patient.patient_id,165708,27,165703,:cutoffDate)) as `LastPedThirdLine`,&#xd;
+   getobsdatetime(getmaxconceptobsidwithformidvaluecoded(patient.patient_id,165708,27,165703,:cutoffDate)) `LastPedThirdLineDate`,&#xd;
+   &#xd;
+   getcodedvalueobsid(getmaxconceptobsidwithformidvaluecoded(patient.patient_id,165708,27,164506,:cutoffDate)) as `LastAdultFirstLine`,&#xd;
+   getobsdatetime(getmaxconceptobsidwithformidvaluecoded(patient.patient_id,165708,27,164506,:cutoffDate)) `LastAdultFirstLineDate`,&#xd;
+   getcodedvalueobsid(getmaxconceptobsidwithformidvaluecoded(patient.patient_id,165708,27,164513,:cutoffDate)) as `LastAdultSecondLine`,&#xd;
+   getobsdatetime(getmaxconceptobsidwithformidvaluecoded(patient.patient_id,165708,27,164513,:cutoffDate)) `LastAdultSecondLineDate`,&#xd;
+   getcodedvalueobsid(getmaxconceptobsidwithformidvaluecoded(patient.patient_id,165708,27,165702,:cutoffDate)) as `LastAdultThirdLine`,&#xd;
+   getobsdatetime(getmaxconceptobsidwithformidvaluecoded(patient.patient_id,165708,27,165702,:cutoffDate)) `LastAdultThirdLineDate`,&#xd;
+   getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165470,13,:cutoffDate)) as `PatientOutcome`,&#xd;
+   getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,165470,13,:cutoffDate)) as `PatientOutcomeDate`,&#xd;
+   &#xd;
+   &#xd;
+   &#xd;
+   IFNULL(MAX(IF(obs.concept_id=165470,cn1.name,null)) ,&#xd;
+getoutcome(&#xd;
+getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,165708,27,:cutoffDate)),&#xd;
+getconceptval(MAX(IF(obs.concept_id=162240,obs.obs_id,null) ),159368,patient.patient_id) ,&#xd;
+28,&#xd;
+IF(:cutoffDate IS NULL or :cutoffDate = &apos;&apos;, CURDATE(),:cutoffDate)&#xd;
+) ) as `CurrentARTStatus`,&#xd;
+   &#xd;
+   &#xd;
+   MAX(IF(obs.concept_id=166273,DATE_FORMAT(obs.value_datetime,&apos;%d-%b-%Y&apos;), NULL))&#xd;
+   as `DateTransitionedToAdultClinic`,&#xd;
+   &#xd;
+   MAX(IF(obs.concept_id=166275,cn1.name, NULL))&#xd;
+   as `OTZProgramOutcome`,&#xd;
+   MAX(IF(obs.concept_id=166008,DATE_FORMAT(obs.value_datetime,&apos;%d-%b-%Y&apos;), NULL))&#xd;
+   as `DateofOutcome`,&#xd;
+   MAX(IF(obs.concept_id=166355,cn1.name, NULL))&#xd;
+   as `ReturningPatient`,&#xd;
+   MAX(IF(obs.concept_id=166354,DATE_FORMAT(obs.value_datetime,&apos;%d-%b-%Y&apos;), NULL))&#xd;
+   as `DateReturned`,&#xd;
+   MAX(IF(obs.concept_id=166352,obs.value_text, NULL))&#xd;
+   as `ReactivatedBy`&#xd;
+   FROM&#xd;
+   obs&#xd;
+   LEFT JOIN patient ON(patient.patient_id=obs.person_id and obs.voided=0 and patient.voided=0)&#xd;
+   LEFT JOIN person ON(person.person_id=patient.patient_id and person.voided=0)&#xd;
+   LEFT join encounter enc on(enc.encounter_id=obs.encounter_id and enc.voided=0 and obs.voided=0 and enc.form_id=73)&#xd;
+   LEFT JOIN visit on (enc.visit_id=visit.visit_id and visit.voided=0)&#xd;
+   left join concept_name cn1 on(obs.value_coded=cn1.concept_id and cn1.locale=&apos;en&apos; and cn1.locale_preferred=1)&#xd;
+   LEFT JOIN patient_identifier pid2 on(pid2.patient_id=patient.patient_id and patient.voided=0 and pid2.identifier_type=4 and pid2.voided=0)&#xd;
+   LEFT JOIN patient_identifier pid3 on(pid3.patient_id=patient.patient_id and patient.voided=0 and pid3.identifier_type=5 and pid3.voided=0)&#xd;
+   LEFT JOIN global_property on(global_property.property=&apos;facility_datim_code&apos;)&#xd;
+   LEFT JOIN patient_program pprg on(pprg.patient_id=patient.patient_id and pprg.program_id=5)&#xd;
+   WHERE patient.voided=0 &#xd;
+   and enc.voided=0 and &#xd;
+   enc.encounter_datetime BETWEEN&#xd;
+   :startDate and :endDate&#xd;
+   GROUP BY patient.patient_id&#xd;
+   &#xd;
+</sqlQuery>
+</org.openmrs.module.reporting.dataset.definition.SqlDataSetDefinition>

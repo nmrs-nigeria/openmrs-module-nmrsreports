@@ -1,0 +1,8 @@
+org\openmrs\module\nmrsreports\api\dao\NmrsreportsDao.class
+org\openmrs\module\nmrsreports\api\NmrsreportsService.class
+org\openmrs\module\nmrsreports\Initializer.class
+org\openmrs\module\nmrsreports\api\dao\impl\NmrsreportsServiceImpl.class
+org\openmrs\module\nmrsreports\ReportsInitializer.class
+org\openmrs\module\nmrsreports\Item.class
+org\openmrs\module\nmrsreports\NmrsreportsActivator.class
+org\openmrs\module\nmrsreports\NmrsreportsConfig.class

@@ -18,7 +18,7 @@ import org.openmrs.User;
 import org.openmrs.api.UserService;
 import org.openmrs.module.nmrsreports.Item;
 import org.openmrs.module.nmrsreports.api.dao.NmrsreportsDao;
-import org.openmrs.module.nmrsreports.api.impl.NmrsreportsServiceImpl;
+import org.openmrs.module.nmrsreports.api.dao.impl.NmrsreportsServiceImpl;
 import static org.mockito.Mockito.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;

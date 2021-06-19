@@ -10,8 +10,14 @@
 package org.openmrs.module.nmrsreports.fragment.controller;
 
 import org.openmrs.api.UserService;
+import org.openmrs.api.context.Context;
+import org.openmrs.module.Module;
+import org.openmrs.module.nmrsreports.api.NmrsreportsService;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  *  * Controller for a fragment that shows all users  
@@ -19,7 +25,19 @@ import org.openmrs.ui.framework.fragment.FragmentModel;
 public class UsersFragmentController {
 	
 	public void controller(FragmentModel model, @SpringBean("userService") UserService service) {
+		String metadataModuleVersion = null;
+		NmrsreportsService nmrsreportingService = Context.getService(NmrsreportsService.class);
+		List<Module> modules = nmrsreportingService.getModules();
+		Iterator var6 = modules.iterator();
+		
+		while (var6.hasNext()) {
+			Module m = (Module) var6.next();
+			if (m.getModuleId().equalsIgnoreCase("nmrsmetadata")) {
+				metadataModuleVersion = m.getVersion();
+			}
+		}
+		
 		model.addAttribute("users", service.getAllUsers());
+		model.addAttribute("metadataModuleVersion", metadataModuleVersion);
 	}
-	
 }

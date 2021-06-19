@@ -7,14 +7,20 @@
  * Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
  * graphic logo is a trademark of OpenMRS Inc.
  */
-package org.openmrs.module.nmrsreports.api.impl;
+package org.openmrs.module.nmrsreports.api.dao.impl;
 
 import org.openmrs.api.APIException;
 import org.openmrs.api.UserService;
 import org.openmrs.api.impl.BaseOpenmrsService;
+import org.openmrs.module.Module;
+import org.openmrs.module.ModuleFactory;
 import org.openmrs.module.nmrsreports.Item;
 import org.openmrs.module.nmrsreports.api.NmrsreportsService;
 import org.openmrs.module.nmrsreports.api.dao.NmrsreportsDao;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class NmrsreportsServiceImpl extends BaseOpenmrsService implements NmrsreportsService {
 	
@@ -48,5 +54,10 @@ public class NmrsreportsServiceImpl extends BaseOpenmrsService implements Nmrsre
 		}
 		
 		return dao.saveItem(item);
+	}
+	
+	@Override
+	public List<Module> getModules() throws APIException {
+		return this.dao.getModules();
 	}
 }
