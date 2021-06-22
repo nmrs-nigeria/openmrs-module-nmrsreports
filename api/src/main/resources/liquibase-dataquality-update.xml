@@ -5,144 +5,144 @@
                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
     
-    <changeSet id="fn_getobsdatetime_20210301_1044" author="Bright" runOnChange="true">
+    <changeSet id="fn_getobsdatetime_20210622_0329" author="Bright" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_getobsdatetime.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
-    <changeSet id="fn_getmaxconceptobsidwithformidvaluecoded_20210301_1046" author="Bright" runOnChange="true">
+    <changeSet id="fn_getmaxconceptobsidwithformidvaluecoded_20210622_0330" author="Bright" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_getmaxconceptobsidwithformidvaluecoded.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
-    <changeSet id="fn_getminconceptobsid_20210301_1127" author="Bright" runOnChange="true">
+    <changeSet id="fn_getminconceptobsid_20210622_0331" author="Bright" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_getminconceptobsid.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
-    <changeSet id="fn_getmaxconceptobsid_20210301_1129" author="Bright" runOnChange="true">
+    <changeSet id="fn_getmaxconceptobsid_20210622_0332" author="Bright" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_getmaxconceptobsid.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
-    <changeSet id="fn_getmaxconceptobsidwithformid_20210301_1130" author="Bright" runOnChange="true">
+    <changeSet id="fn_getmaxconceptobsidwithformid_20210622_0333" author="Bright" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_getmaxconceptobsidwithformid.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
-    <changeSet id="fn_gettextvalueobsid_20210301_1134" author="Bright" runOnChange="true">
+    <changeSet id="fn_gettextvalueobsid_20210622_0333" author="Bright" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_gettextvalueobsid.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
-    <changeSet id="fn_getencounterid_20210301_1136" author="Bright" runOnChange="true">
+    <changeSet id="fn_getencounterid_20210622_0334" author="Bright" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_getencounterid.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
-    <changeSet id="fn_getconceptval_20201112_1126" author="wande" runOnChange="true">
+    <changeSet id="fn_getconceptval_20210622_0334" author="wande" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_getconceptval.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
 
     </changeSet>
-    <changeSet id="fn_getcurrentregimen_20201112_1126" author="wande" runOnChange="true">
+    <changeSet id="fn_getcurrentregimen_20210622_0334" author="wande" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_getcurrentregimen.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
-    <changeSet id="fn_getdaysofarvrefil_20201112_1126" author="wande" runOnChange="true">
+    <changeSet id="fn_getdaysofarvrefil_20210622_0334" author="wande" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_getdaysofarvrefil.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
-    <changeSet id="fn_getoutcome_20201112_1126" author="wande" runOnChange="true">
+    <changeSet id="fn_getoutcome_20210622_0334" author="wande" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_getoutcome.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
-    <changeSet id="fn_getreporteddate_20201112_1126" author="wande" runOnChange="true">
+    <changeSet id="fn_getreporteddate_20210622_0334" author="wande" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_getreporteddate.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
-    <changeSet id="prc_drugduration_20201112_1126" author="wande" runOnChange="true">
+    <changeSet id="prc_drugduration_20210622_0334" author="wande" runOnChange="true">
         <sqlFile path="dataquality/procedures/prc_drugduration.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
     <!-- Missing changeset -->
-    <changeSet id="report_update_20201129850" author="Bright" runOnChange="true">
+    <changeSet id="report_update_20210622_0334" author="Bright" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_getcodedintvalueobs.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
-    <changeSet id="fn_getcodedintvalueobs_202105121209" author="Bright" runOnChange="true">
+    <changeSet id="fn_getcodedintvalueobs_20210622_0334" author="Bright" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_getcodedintvalueobs.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
-    <changeSet id="fn_getcodedvalueobsid_202105121209" author="Bright" runOnChange="true">
+    <changeSet id="fn_getcodedvalueobsid_20210622_0334" author="Bright" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_getcodedvalueobsid.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
-    <changeSet id="fn_getdatevalueobsid_202105121210" author="Bright" runOnChange="true">
+    <changeSet id="fn_getdatevalueobsid_20210622_0334" author="Bright" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_getdatevalueobsid.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
-    <changeSet id="fn_getminconceptobswithformid_202105121212" author="Bright" runOnChange="true">
+    <changeSet id="fn_getminconceptobswithformid_20210622_0334" author="Bright" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_getminconceptobswithformid.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
-    <changeSet id="fn_getminconceptobswithformidvaluecoded_202105121213" author="Bright" runOnChange="true">
+    <changeSet id="fn_getminconceptobswithformidvaluecoded_20210622_0334" author="Bright" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_getminconceptobswithformidvaluecoded.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
-    <changeSet id="fn_getnumericvalueobsid_202105121213" author="Bright" runOnChange="true">
+    <changeSet id="fn_getnumericvalueobsid_20210622_0334" author="Bright" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_getnumericvalueobsid.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
     <!-- New functions for the OTZ Line List -->
-    <changeSet id="fn_completedayp_202105270138" author="Bright" runOnChange="true">
+    <changeSet id="fn_completedayp_20210622_0335" author="Bright" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_completedayp.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
     
-    <changeSet id="fn_datecompletedayp_202105270202" author="Bright" runOnChange="true">
+    <changeSet id="fn_datecompletedayp_20210622_0335" author="Bright" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_datecompletedayp.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
     
-    <changeSet id="fn_previous_202105270206" author="Bright" runOnChange="true">
+    <changeSet id="fn_previous_20210622_0335" author="Bright" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_previous.sql"
                  stripComments="true"
                  splitStatements="true"
