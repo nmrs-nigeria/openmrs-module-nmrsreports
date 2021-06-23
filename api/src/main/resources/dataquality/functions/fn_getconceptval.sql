@@ -10,6 +10,8 @@ BEGIN
         AND obs.concept_id=cid
         AND obs.person_id=pid
         AND obs.voided=0
+        AND obs.value_numeric  IS NOT NULL
+        ORDER BY obs_id ASC
         LIMIT 1;
 	RETURN value_num;
 END /0xd
