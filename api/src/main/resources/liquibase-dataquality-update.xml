@@ -149,6 +149,27 @@
                  endDelimiter="/0xd"/>
     </changeSet>
     
+    <changeSet id="fn_getlastvisitdate_20210626_2000" author="Bright" runOnChange="true">
+        <sqlFile path="dataquality/functions/fn_getlastvisitdate.sql"
+                 stripComments="true"
+                 splitStatements="true"
+                 endDelimiter="/0xd"/>
+    </changeSet>
+    
+    <changeSet id="fn_getlastencounter_20210626_2000" author="Bright" runOnChange="true">
+        <sqlFile path="dataquality/functions/fn_getlastencounter.sql"
+                 stripComments="true"
+                 splitStatements="true"
+                 endDelimiter="/0xd"/>
+    </changeSet>
+    
+    <changeSet id="fn_getobswithencounterid_20210626_2000" author="Bright" runOnChange="true">
+        <sqlFile path="dataquality/functions/fn_getobswithencounterid.sql"
+                 stripComments="true"
+                 splitStatements="true"
+                 endDelimiter="/0xd"/>
+    </changeSet>
+    
     
     <!-- Error - Pharmacy Forms Without Duration -->
     <changeSet id="report_update_20212702540" author="Bright">
