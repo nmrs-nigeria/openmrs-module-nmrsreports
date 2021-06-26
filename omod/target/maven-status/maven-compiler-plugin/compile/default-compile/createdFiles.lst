@@ -1,3 +1,0 @@
-org\openmrs\module\nmrsreports\extension\html\AdminList.class
-org\openmrs\module\nmrsreports\web\controller\NmrsreportsController.class
-org\openmrs\module\nmrsreports\fragment\controller\UsersFragmentController.class
