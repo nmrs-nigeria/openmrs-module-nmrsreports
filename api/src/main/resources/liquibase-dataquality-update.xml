@@ -170,6 +170,13 @@
                  endDelimiter="/0xd"/>
     </changeSet>
     
+    <changeSet id="fn_getencounterdate_20210626_2040" author="Bright" runOnChange="true">
+        <sqlFile path="dataquality/functions/fn_getencounterdate.sql"
+                 stripComments="true"
+                 splitStatements="true"
+                 endDelimiter="/0xd"/>
+    </changeSet>
+    
     
     <!-- Error - Pharmacy Forms Without Duration -->
     <changeSet id="report_update_20212702540" author="Bright">
