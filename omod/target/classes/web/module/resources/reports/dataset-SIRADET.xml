@@ -4,7 +4,7 @@
   <creator id="2" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
   <dateCreated id="3">2019-07-08 23:21:26 UTC</dateCreated>
   <changedBy reference="2"/>
-  <dateChanged id="4">2021-06-26 17:21:32 UTC</dateChanged>
+  <dateChanged id="4">2021-06-26 19:10:37 UTC</dateChanged>
   <parameters id="5">
     <org.openmrs.module.reporting.evaluation.parameter.Parameter id="6">
       <name>startDate</name>
@@ -203,7 +203,7 @@ MAX(encounter.encounter_datetime) as last_visit_date&#xd;
 from encounter&#xd;
 where encounter.voided=0 and encounter.form_id!=13 and encounter.encounter_datetime&lt;=:endDate GROUP BY  encounter.patient_id&#xd;
 ) as enc_last on(enc_last.patient_id=patient.patient_id and patient.voided=0)&#xd;
-WHERE patient.voided=0 and pprg.program_id=1&#xd;
+WHERE patient.voided=0 and pid1.identifier IS NOT NULL&#xd;
 GROUP BY patient.patient_id ;&#xd;
 </sqlQuery>
 </org.openmrs.module.reporting.dataset.definition.SqlDataSetDefinition>
