@@ -1,0 +1,2 @@
+org\openmrs\module\nmrsreports\api\dao\NmrsreportsDaoTest.class
+org\openmrs\module\nmrsreports\api\NmrsreportsServiceTest.class
