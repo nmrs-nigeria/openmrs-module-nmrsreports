@@ -15,8 +15,12 @@ import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.Module;
 import org.openmrs.module.nmrsreports.NmrsreportsConfig;
 import org.openmrs.module.nmrsreports.Item;
+import org.openmrs.module.nmrsreports.models.EncounterListResponse;
+import org.openmrs.module.nmrsreports.models.PatientList;
+import org.openmrs.module.nmrsreports.models.ReportResponse;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -52,4 +56,17 @@ public interface NmrsreportsService extends OpenmrsService {
 	@Authorized(NmrsreportsConfig.MODULE_PRIVILEGE)
 	@Transactional
 	List<Module> getModules() throws APIException;
+	
+	@Authorized(NmrsreportsConfig.MODULE_PRIVILEGE)
+	@Transactional
+	List<PatientList> getPatientList() throws APIException;
+	
+	@Authorized(NmrsreportsConfig.MODULE_PRIVILEGE)
+	@Transactional
+	List<ReportResponse> getReports(Date from, Date to, String issueType) throws APIException;
+	
+	@Authorized(NmrsreportsConfig.MODULE_PRIVILEGE)
+	@Transactional
+	List<EncounterListResponse> getEncounterTypeReports(Date from, Date to, int encounterTypeId, String identifier,
+	        String ndrVisitId) throws APIException;
 }

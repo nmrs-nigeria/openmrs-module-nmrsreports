@@ -13,14 +13,15 @@ import org.openmrs.api.APIException;
 import org.openmrs.api.UserService;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.Module;
-import org.openmrs.module.ModuleFactory;
 import org.openmrs.module.nmrsreports.Item;
 import org.openmrs.module.nmrsreports.api.NmrsreportsService;
 import org.openmrs.module.nmrsreports.api.dao.NmrsreportsDao;
+import org.openmrs.module.nmrsreports.models.EncounterListResponse;
+import org.openmrs.module.nmrsreports.models.PatientList;
+import org.openmrs.module.nmrsreports.models.ReportResponse;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class NmrsreportsServiceImpl extends BaseOpenmrsService implements NmrsreportsService {
 	
@@ -60,4 +61,21 @@ public class NmrsreportsServiceImpl extends BaseOpenmrsService implements Nmrsre
 	public List<Module> getModules() throws APIException {
 		return this.dao.getModules();
 	}
+	
+	@Override
+	public List<PatientList> getPatientList() throws APIException {
+		return this.dao.getPatientList();
+	}
+	
+	@Override
+	public List<ReportResponse> getReports(Date from, Date to, String issueType) throws APIException {
+		return this.dao.getReports(from, to, issueType);
+	}
+	
+	@Override
+	public List<EncounterListResponse> getEncounterTypeReports(Date from, Date to, int encounterTypeId, String identifier,
+	        String ndrVisitId) throws APIException {
+		return this.dao.getEncounterTypeReports(from, to, encounterTypeId, identifier, ndrVisitId);
+	}
+	
 }

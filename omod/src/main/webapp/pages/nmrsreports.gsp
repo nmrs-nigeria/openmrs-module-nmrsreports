@@ -1,63 +1,80 @@
 <% ui.decorateWith("appui", "standardEmrPage") %>
 
+
 <%=ui.resourceLinks()%>
+
+
+
+<% ui.includeCss("nmrsreports", "fontawesome/css/all.css") %>
+<% ui.includeCss("nmrsreports", "flaticon/flaticon.css") %>
+<% ui.includeCss("nmrsreports", "flaticon2/flaticon.css") %>
 <% ui.includeCss("nmrsreports", "bootstrap.css") %>
-<% ui.includeJavascript("nmrsreports", "bootstrap.js") %>
+<% ui.includeCss("nmrsreports", "all.css") %>
+<% ui.includeCss("nmrsreports", "site.css") %>
+<% ui.includeCss("nmrsreports", "jquery.dataTables.min.css") %>
+<% ui.includeCss("nmrsreports", "buttons.dataTables.min.css") %>
+<% ui.includeCss("nmrsreports", "custom.css") %>
+
+
+<% ui.includeJavascript("nmrsreports", "jquery.js") %>
+<% ui.includeJavascript("nmrsreports", "bootstrap.bundle.js") %>
+<% ui.includeJavascript("nmrsreports", "site.js") %>
+<% ui.includeJavascript("nmrsreports", "jquery.dataTables.min.js") %>
 
 <style>
-.card-header {
-    padding: 0.75rem 1.25rem;
-    margin-bottom: 0;
-    background-color: #2f1c55;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-    color: #fff;
-}
-.stats{
-    color: #363463 !important;
-    text-decoration: none !important;
-}
-
-
-h3.mb-0 a:link
-{
-    font-weight: bold;
-    font-size: 30px;
-}
-
-
-.flex-md-row  {
-    background-clip: border-box;
-    border-radius: .375rem;
-    box-shadow: 0 7px 14px 0 rgb(65 69 88 / 10%), 0 3px 6px 0 rgb(0 0 0 / 7%);
-    border: 1px solid #edf2f9 !important;
-    border: 1px solid #6c757d !important;
-}
-
-
-
-.card-header h5 {
-    color: #fff;
-    clear: both;
-    margin: 10px 0;
-    font-weight: normal;
-}
-div.card-body a:link {
-    color: #363463 !important;
-    text-decoration: none !important;
-}
-div.card-body a:visited {
-    color: #363463 !important;
-    text-decoration: none !important;
-}
-div.card-body a:hover {
-    color: #363463 !important;
-    text-decoration: none !important;
+.dataTables_length {
+    width: 50%;
+    float: right;
+    text-align: left !important;
 }
 </style>
-<h4 class="text-center">
-    NMRS Reportining module
-</h4>
+
+<!-- Tab links -->
+<div class="tab">
+
+    <button class="tablinks" onclick="openTab(event, 'dashboard')"
+            id="defaultOpen">Reports Dashboard</button>
+    <button class="tablinks" onclick="openTab(event, 'reports')">Report Line Listings</button>
+    <button class="tablinks" onclick="openTab(event, 'encounters')">Search for Encounter</button>
+
+</div>
+
+
+${ui.includeFragment("nmrsreports", "dashboard")}
+${ui.includeFragment("nmrsreports", "encounters")}
+${ui.includeFragment("nmrsreports", "reportslist")}
 
 
 
-${ui.includeFragment("nmrsreports", "users")}
+<script>
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+
+    function openTab(evt, tabName) {
+        // Declare all variables
+        var i, tabcontent, tablinks;
+
+        // Get all elements with class="tabcontent" and hide them
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Get all elements with class="tablinks" and remove the class "active"
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Show the current tab, and add an "active" class to the button that opened the tab
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+</script>
+
+
+
+
+
