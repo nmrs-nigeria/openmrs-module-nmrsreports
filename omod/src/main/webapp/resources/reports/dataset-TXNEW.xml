@@ -4,7 +4,7 @@
   <creator id="2" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
   <dateCreated id="3">2019-09-02 14:25:42 UTC</dateCreated>
   <changedBy reference="2"/>
-  <dateChanged id="4">2020-09-28 11:22:27 UTC</dateChanged>
+  <dateChanged id="4">2021-08-30 23:09:09 UTC</dateChanged>
   <parameters id="5">
     <org.openmrs.module.reporting.evaluation.parameter.Parameter id="6">
       <name>startDate</name>
@@ -23,17 +23,25 @@
   <sqlQuery>select&#xd;
     DISTINCT&#xd;
 	global_property.property_value as DatimCode,&#xd;
-        pid1.identifier as HospID,&#xd;
+    pid1.identifier as HospID,&#xd;
 	pid2.identifier as PepfarID,&#xd;
 	pid3.identifier as ANCNo,&#xd;
 	pid4.identifier as HTSID,&#xd;
 	pid5.identifier as HEINo,&#xd;
 	person.gender as Sex,&#xd;
-	person.birthdate as DOB,&#xd;
-	TIMESTAMPDIFF(YEAR,person.birthdate,curdate()) as Age,&#xd;
-	patient_program.date_enrolled as EnrollmentDate,&#xd;
-	MAX(IF(obs.concept_id=160540,cn1.name,null)) as CareEntryPoint,&#xd;
-	MAX(IF(obs.concept_id=159599,DATE_FORMAT(obs.value_datetime,&apos;%d-%b-%Y&apos;), NULL)) as ARTStartDate&#xd;
+	DATE_FORMAT(person.birthdate,&apos;%d-%b-%Y&apos;) as DOB,&#xd;
+    MAX(&#xd;
+IF(obs.concept_id=159599,&#xd;
+TIMESTAMPDIFF(YEAR,person.birthdate,obs.value_datetime),null)) as  `AgeAtStartOfARTYears`,&#xd;
+ TIMESTAMPDIFF(YEAR,person.birthdate,curdate()) as `CurrentAgeYears`,&#xd;
+DATE_FORMAT(patient_program.date_enrolled,&apos;%d-%b-%Y&apos;) as EnrollmentDate,&#xd;
+&#xd;
+	MAX(IF(obs.concept_id=159599,DATE_FORMAT(obs.value_datetime,&apos;%d-%b-%Y&apos;), NULL)) as ARTStartDate,&#xd;
+MAX(IF(obs.concept_id=160540,cn1.name,null)) as CareEntryPoint,&#xd;
+MAX(IF(obs.concept_id=165242,cn1.name,null)) as PriorART,&#xd;
+MAX(IF(obs.concept_id=160534,DATE_FORMAT(obs.value_datetime,&apos;%d-%b-%Y&apos;),null)) as DateTransferredIn&#xd;
+&#xd;
+	&#xd;
 	from &#xd;
 	patient &#xd;
 	left join patient_identifier pid1 on(pid1.patient_id=patient.patient_id and pid1.identifier_type=5 and pid1.voided=0)&#xd;
