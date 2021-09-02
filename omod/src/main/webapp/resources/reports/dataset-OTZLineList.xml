@@ -4,7 +4,7 @@
   <creator id="2" uuid="A4F30A1B-5EB9-11DF-A648-37A07F9C90FB"/>
   <dateCreated id="3">2021-06-22 04:29:08 UTC</dateCreated>
   <changedBy id="4" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
-  <dateChanged id="5">2021-06-28 01:42:40 UTC</dateChanged>
+  <dateChanged id="5">2021-09-02 03:08:24 UTC</dateChanged>
   <parameters id="6">
     <org.openmrs.module.reporting.evaluation.parameter.Parameter id="7">
       <name>startDate</name>
@@ -116,8 +116,11 @@ IF(:cutoffDate IS NULL or :cutoffDate = &apos;&apos;, CURDATE(),:cutoffDate)&#xd
    LEFT JOIN patient_program pprg on(pprg.patient_id=patient.patient_id and pprg.program_id=5 and pprg.voided=0)&#xd;
    WHERE patient.voided=0 &#xd;
    and enc.voided=0 and &#xd;
+   TIMESTAMPDIFF(MONTH,pprg.date_enrolled,enc.encounter_datetime)&gt;=0&#xd;
+   and&#xd;
    enc.encounter_datetime BETWEEN&#xd;
    :startDate and :cutoffDate and pprg.date_enrolled BETWEEN :startDate and :endDate&#xd;
+&#xd;
    GROUP BY patient.patient_id,TIMESTAMPDIFF(MONTH,pprg.date_enrolled,enc.encounter_datetime)&#xd;
    &#xd;
 </sqlQuery>
