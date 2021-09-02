@@ -4,7 +4,7 @@
   <creator id="2" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
   <dateCreated id="3">2019-07-08 23:21:26 UTC</dateCreated>
   <changedBy reference="2"/>
-  <dateChanged id="4">2021-06-26 19:10:37 UTC</dateChanged>
+  <dateChanged id="4">2021-09-02 04:12:23 UTC</dateChanged>
   <parameters id="5">
     <org.openmrs.module.reporting.evaluation.parameter.Parameter id="6">
       <name>startDate</name>
@@ -33,9 +33,13 @@ MAX(IF(obs.concept_id=159599,IF(TIMESTAMPDIFF(YEAR,person.birthdate,obs.value_da
 &#xd;
 MAX(IF(obs.concept_id=160540,cn1.name,null)) as CareEntryPoint,&#xd;
 &#xd;
-getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,166369,23,:endDate)) as `RiskFactor`,&#xd;
+getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,166369,23,:endDate)) as `KPType`,&#xd;
+&#xd;
+MAX(IF(obs.concept_id=160534,DATE_FORMAT(obs.value_datetime,&apos;%d-%b-%Y&apos;),null)) as DateTransferredIn,&#xd;
 &#xd;
 MAX(IF(obs.concept_id=165242,cn1.name,null)) as TransferInStatus,&#xd;
+&#xd;
+&#xd;
 MAX(IF(obs.concept_id=159599,DATE_FORMAT(obs.value_datetime,&apos;%d-%b-%Y&apos;),null)) as `ARTStartDate`,&#xd;
 &#xd;
 DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,:endDate)),&apos;%d-%b-%Y&apos;) as `LastPickupDate`,&#xd;
@@ -43,6 +47,9 @@ DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,16224
 DATE_FORMAT(getencounterdate(getlastvisitdate(patient.patient_id,:endDate)),&apos;%d-%b-%Y&apos;) as LastVisitDate,&#xd;
 &#xd;
 getconceptval(getmaxconceptobsidwithformid(patient.patient_id,162240,27,:endDate),159368,patient.patient_id) as `DaysOfARVRefil`,&#xd;
+&#xd;
+gettextvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,166406,27,:endDate))&#xd;
+as `PillBalance`,&#xd;
 &#xd;
 MAX(IF(obs2.concept_id=165708,cn2.name,null)) as `InitialRegimenLine`,&#xd;
 &#xd;
@@ -70,17 +77,27 @@ DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,856,2
 DATE_FORMAT(getreporteddate(getencounterid(getmaxconceptobsidwithformid(patient.patient_id,856,21,:endDate)),165414,patient.patient_id),&apos;%d-%b-%Y&apos;) &#xd;
 as `ViralLoadReportedDate`,&#xd;
 &#xd;
+DATE_FORMAT(getdatevalueobsid(getobswithencounterid(getencounterid(getmaxconceptobsidwithformid(patient.patient_id,856,21,:endDate)),166423)),&apos;%d-%b-%Y&apos;) as `ResultDate`,&#xd;
+&#xd;
+DATE_FORMAT(getdatevalueobsid(getobswithencounterid(getencounterid(getmaxconceptobsidwithformid(patient.patient_id,856,21,:endDate)),166424)),&apos;%d-%b-%Y&apos;) as `AssayDate`,&#xd;
+&#xd;
+DATE_FORMAT(getdatevalueobsid(getobswithencounterid(getencounterid(getmaxconceptobsidwithformid(patient.patient_id,856,21,:endDate)),166425)),&apos;%d-%b-%Y&apos;) as `ApprovalDate`,&#xd;
+&#xd;
+&#xd;
 getcodedvalueobsid(getobswithencounterid(getencounterid(getmaxconceptobsidwithformid(patient.patient_id,856,21,:endDate)),164980)) as `ViralLoadIndication`,&#xd;
 &#xd;
 getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165470,13,:endDate)) as PatientOutcome,&#xd;
 DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,165470,13,:endDate)),&apos;%d-%b-%Y&apos;) as PatientOutcomeDate,&#xd;
 &#xd;
-getoutcome(&#xd;
+IFNULL (getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165470,13,:endDate)),getoutcome(&#xd;
 getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,:endDate)),&#xd;
 getconceptval(getmaxconceptobsidwithformid(patient.patient_id,162240,27,:endDate),159368,patient.patient_id) ,&#xd;
 28,&#xd;
 IF(:endDate IS NULL or :endDate = &apos;&apos;, CURDATE(),:endDate)&#xd;
-)  as `CurrentARTStatus`,&#xd;
+&#xd;
+))  as `CurrentARTStatus`,&#xd;
+&#xd;
+&#xd;
 &#xd;
 getcodedvalueobsid(getobswithencounterid(getencounterid(getmaxconceptobsidwithformid(patient.patient_id,162240,27,:endDate)),166148)) as `DispensingModality`,&#xd;
 &#xd;
@@ -93,7 +110,9 @@ MAX(IF(obs.concept_id=165775,DATE_FORMAT(obs.value_datetime,&apos;%d-%b-%Y&apos;
 &#xd;
 MAX(IF(obs.concept_id=165469,DATE_FORMAT(obs.value_datetime,&apos;%d-%b-%Y&apos;),null)) as `DateOfTermination`,&#xd;
 &#xd;
-MAX(IF(obs.concept_id=5096,DATE_FORMAT(obs.value_datetime,&apos;%d-%b-%Y&apos;),null)) as `LastAppointmentDate`,&#xd;
+DATE_FORMAT(getdatevalueobsid(getmaxconceptobsidwithformid(patient.patient_id,5096,27,:endDate)),&apos;%d-%b-%Y&apos;) as `PharmacyNextAppointment`,&#xd;
+&#xd;
+DATE_FORMAT(getdatevalueobsid(getmaxconceptobsidwithformid(patient.patient_id,5096,14,:endDate)),&apos;%d-%b-%Y&apos;) as `ClinicalNextAppointment`,&#xd;
 &#xd;
 IF(TIMESTAMPDIFF(YEAR,person.birthdate,curdate())&gt;=5,TIMESTAMPDIFF(YEAR,person.birthdate,curdate()),null) as `CurrentAgeYears`,&#xd;
 IF(TIMESTAMPDIFF(YEAR,person.birthdate,curdate())&lt;5,TIMESTAMPDIFF(MONTH,person.birthdate,curdate()),null) as `CurrentAgeMonths`,&#xd;
@@ -101,9 +120,16 @@ DATE_FORMAT(person.birthdate,&apos;%d-%b-%Y&apos;) as `DateOfBirth`,&#xd;
 IF(person.dead=1,&quot;Dead&quot;,&quot;&quot;) as MarkAsDeseased,&#xd;
 IF(person.dead=1,person.death_date,&quot;&quot;) as MarkAsDeseasedDeathDate,&#xd;
 CONCAT(&quot;+234-&quot;,psn_atr.value) AS RegistrationPhoneNo,&#xd;
-MAX(IF(obs.concept_id=159635,CONCAT(&quot;+234-&quot;,obs.value_text),null)) as `ContactPhoneNo`,&#xd;
+MAX(IF(obs.concept_id=159635,CONCAT(&quot;+234-&quot;,obs.value_text),null)) as `NextofKinPhoneNo`,&#xd;
+MAX(IF(obs.concept_id=160642,CONCAT(&quot;+234-&quot;,obs.value_text),null)) as &#xd;
+`TreatmentSupporterPhoneNo`,&#xd;
+&#xd;
 IF(biometrictable.patient_Id IS NOT NULL,&apos;Yes&apos;,&apos;No&apos;) as BiometricCaptured,&#xd;
+&#xd;
+IF(biometrictable.patient_Id IS NOT NULL,DATE_FORMAT(biometrictable.date_created,&apos;%d-%b-%Y&apos;),&quot;&quot;) as BiometricCaptureDate,&#xd;
+&#xd;
 IF(biometrictable.patient_Id IS NOT NULL,IF(invalidprint.patient_Id IS NOT NULL,&apos;No&apos;,&apos;Yes&apos;),&quot;&quot;) as ValidCapture,&#xd;
+&#xd;
 getnumericvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,5089,14,:endDate)) as `CurrentWeight(Kg)`,&#xd;
 DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,5089,14,:endDate)),&apos;%d-%b-%Y&apos;) as `CurrentWeightDate`,&#xd;
 getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,1659,14,:endDate)) as `TBStatus`,&#xd;
@@ -120,20 +146,22 @@ DATE_FORMAT(getdatevalueobsid(getmaxconceptobsid(patient.patient_id,159431,:endD
  as `TBTreatmentStopDate`,&#xd;
  DATE_FORMAT(getencounterdate(getlastencounter(patient.patient_id,67,:endDate)),&apos;%d-%b-%Y&apos;) &#xd;
 as `LastViralLoadSampleCollectionFormDate`,&#xd;
+&#xd;
+DATE_FORMAT(getencounterdate(getlastencounter(patient.patient_id,21,:endDate)),&apos;%d-%b-%Y&apos;) &#xd;
+as `LastLabFormDate`,&#xd;
+&#xd;
+&#xd;
 DATE_FORMAT(getencounterdate(getlastencounter(patient.patient_id,73,:endDate)),&apos;%d-%b-%Y&apos;) &#xd;
-as `OTZStartDate`,&#xd;
+as `OTZEnrollmentDate`,&#xd;
 &#xd;
 DATE_FORMAT(getdatevalueobsid(getmaxconceptobsidwithformid(patient.patient_id,166008,73,:endDate)),&apos;%d-%b-%Y&apos;) &#xd;
-as `OTZStopDate`,&#xd;
+as `OTZOutcomeDate`,&#xd;
 DATE_FORMAT(pprg.date_enrolled,&apos;%d-%b-%Y&apos;) as EnrollmentDate,&#xd;
 MAX(IF(obs2.concept_id in(164506,164507), cn2.name,null)) as `InitialFirstLineRegimen`,&#xd;
 MAX(IF(obs2.concept_id in(164506,164507), DATE_FORMAT(obs2.obs_datetime,&apos;%d-%b-%Y&apos;),null)) as `InitialFirstLineRegimenDate`,&#xd;
 MAX(IF(obs2.concept_id in(164513,164514), cn2.name,null)) as `InitialSecondLineRegimen`,&#xd;
 MAX(IF(obs2.concept_id in(164513,164514), DATE_FORMAT(obs2.obs_datetime,&apos;%d-%b-%Y&apos;),null)) as `InitialSecondLineRegimenDate`,&#xd;
-MAX(IF((obs.concept_id in(164506,164507) and enc.form_id=27), cn1.name,null)) as `LastFirstLineRegimen`,&#xd;
-MAX(IF((obs.concept_id in(164506,164507) and enc.form_id=27), DATE_FORMAT(obs.obs_datetime,&apos;%d-%b-%Y&apos;),null)) as `LastFirstLineRegimenDate`,&#xd;
-MAX(IF((obs.concept_id in(164513,164514) and enc.form_id=27), cn1.name,null)) as `LastSecondLineRegimen`,&#xd;
-MAX(IF((obs.concept_id in(164513,164514) and enc.form_id=27), DATE_FORMAT(obs2.obs_datetime,&apos;%d-%b-%Y&apos;),null)) as `LastSecondLineRegimenDate`,&#xd;
+&#xd;
 DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,DATE_SUB(:endDate,INTERVAL 3 MONTH))),&apos;%d-%b-%Y&apos;) as &#xd;
 `LastPickupDatePreviousQuarter`,&#xd;
 &#xd;
@@ -146,12 +174,13 @@ getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165470,13,DAT
 DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,165470,13,DATE_SUB(:endDate,INTERVAL 3 MONTH))),&apos;%d-%b-%Y&apos;) as &#xd;
 `PatientOutcomeDatePreviousQuarter`,&#xd;
 &#xd;
-getoutcome(&#xd;
+IFNULL(getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165470,13,DATE_SUB(:endDate,INTERVAL 3 MONTH))),getoutcome(&#xd;
 getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,DATE_SUB(:endDate,INTERVAL 3 MONTH))),&#xd;
 getconceptval(getmaxconceptobsidwithformid(patient.patient_id,162240,27,DATE_SUB(:endDate,INTERVAL 3 MONTH)),159368,patient.patient_id) ,&#xd;
 28,&#xd;
 IF(:endDate IS NULL or :endDate = &apos;&apos;, CURDATE(),DATE_SUB(:endDate,INTERVAL 3 MONTH))&#xd;
-)  as `ARTStatusPreviousQuarter`&#xd;
+&#xd;
+))  as `ARTStatusPreviousQuarter`&#xd;
 &#xd;
 &#xd;
 &#xd;
@@ -175,7 +204,7 @@ obs.concept_id,&#xd;
  MAX(obs.obs_datetime) as last_date, &#xd;
 MIN(obs.obs_datetime) as first_date&#xd;
 from obs INNER JOIN encounter on(encounter.encounter_id=obs.encounter_id) where encounter.form_id!=48 and obs.voided=0 and obs.obs_datetime&lt;=:endDate and concept_id in(159599,165708,159368,164506,164513,164507,164514,165702,165703,165050,&#xd;
-856,164980,165470,159635,5089,165988,1659,164852,166096,1113,159431,162240,165242,165724,166156,166158,165727,164982,165414,5596,165775,160540,165469,5096,1427) GROUP BY obs.person_id, obs.concept_id) as sinner on (sinner.person_id=patient.patient_id and patient.voided=0)&#xd;
+856,164980,165470,159635,5089,165988,1659,164852,166096,1113,159431,162240,165242,165724,166156,166158,165727,164982,165414,5596,165775,160540,165469,5096,1427,160642) GROUP BY obs.person_id, obs.concept_id) as sinner on (sinner.person_id=patient.patient_id and patient.voided=0)&#xd;
 INNER JOIN obs on(obs.person_id=patient.patient_id and obs.concept_id=sinner.concept_id and obs.obs_datetime=sinner.last_date and obs.voided=0 and obs.obs_datetime&lt;=:endDate)&#xd;
 INNER JOIN obs obs2 on(obs2.person_id=patient.patient_id and obs2.concept_id=sinner.concept_id and obs2.obs_datetime=sinner.first_date and obs2.voided=0 and obs2.obs_datetime&lt;=:endDate)&#xd;
 LEFT join encounter enc on(enc.encounter_id=obs.encounter_id and enc.voided=0 and obs.voided=0)&#xd;
@@ -183,9 +212,9 @@ left join concept_name cn1 on(obs.value_coded=cn1.concept_id and cn1.locale=&apo
 left join concept_name cn2 on(obs2.value_coded=cn2.concept_id and cn2.locale=&apos;en&apos; and cn2.locale_preferred=1)&#xd;
 LEFT JOIN (&#xd;
    select &#xd;
-   DISTINCT biometricinfo.patient_Id&#xd;
+   DISTINCT biometricinfo.patient_Id,biometricinfo.date_created&#xd;
    from &#xd;
-   biometricinfo&#xd;
+   biometricinfo GROUP BY biometricinfo.patient_Id&#xd;
 ) as biometrictable &#xd;
 on(patient.patient_id=biometrictable.patient_Id and patient.voided=0)&#xd;
 LEFT JOIN (&#xd;
