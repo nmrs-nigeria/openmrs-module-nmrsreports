@@ -1,24 +1,24 @@
 <org.openmrs.module.reporting.report.definition.ReportDefinition id="1" uuid="cbc1c600-0535-4158-9101-c31ffb4a5ead" retired="false">
   <name>OTZ Line List</name>
   <description>An excel export of the OTZ form</description>
-  <creator id="2" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
-  <dateCreated id="3">2021-04-28 15:29:10 UTC</dateCreated>
-  <changedBy reference="2"/>
-  <dateChanged id="4">2021-05-05 10:37:55 UTC</dateChanged>
-  <parameters id="5">
-    <org.openmrs.module.reporting.evaluation.parameter.Parameter id="6">
-      <name>startDate</name>
-      <label>OTZ Start Date</label>
-      <type>java.util.Date</type>
-      <required>true</required>
-    </org.openmrs.module.reporting.evaluation.parameter.Parameter>
+  <creator id="2" uuid="A4F30A1B-5EB9-11DF-A648-37A07F9C90FB"/>
+  <dateCreated id="3">2021-06-22 04:29:09 UTC</dateCreated>
+  <changedBy id="4" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
+  <dateChanged id="5">2021-09-02 03:03:30 UTC</dateChanged>
+  <parameters id="6">
     <org.openmrs.module.reporting.evaluation.parameter.Parameter id="7">
-      <name>endDate</name>
-      <label>OTZ Stop Date</label>
+      <name>startDate</name>
+      <label>OTZ Enrollment Cohort Start</label>
       <type>java.util.Date</type>
       <required>true</required>
     </org.openmrs.module.reporting.evaluation.parameter.Parameter>
     <org.openmrs.module.reporting.evaluation.parameter.Parameter id="8">
+      <name>endDate</name>
+      <label>OTZ Enrollment Cohort Stop</label>
+      <type>java.util.Date</type>
+      <required>true</required>
+    </org.openmrs.module.reporting.evaluation.parameter.Parameter>
+    <org.openmrs.module.reporting.evaluation.parameter.Parameter id="9">
       <name>cutoffDate</name>
       <label>Follow up Period</label>
       <type>java.util.Date</type>
@@ -26,12 +26,12 @@
     </org.openmrs.module.reporting.evaluation.parameter.Parameter>
   </parameters>
   <id>246</id>
-  <dataSetDefinitions class="linked-hash-map" id="9">
+  <dataSetDefinitions class="linked-hash-map" id="10">
     <entry>
       <string>OTZLineList</string>
-      <org.openmrs.module.reporting.evaluation.parameter.Mapped id="10">
-        <parameterizable class="org.openmrs.module.reporting.dataset.definition.SqlDataSetDefinition" id="11" uuid="287920c5-2e27-4c5d-af76-589f45743a94"/>
-        <parameterMappings id="12">
+      <org.openmrs.module.reporting.evaluation.parameter.Mapped id="11">
+        <parameterizable class="org.openmrs.module.reporting.dataset.definition.SqlDataSetDefinition" id="12" uuid="287920c5-2e27-4c5d-af76-589f45743a94"/>
+        <parameterMappings id="13">
           <entry>
             <string>endDate</string>
             <string>${endDate}</string>
