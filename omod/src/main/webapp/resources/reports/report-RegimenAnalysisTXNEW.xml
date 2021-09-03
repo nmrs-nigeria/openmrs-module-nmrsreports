@@ -1,0 +1,41 @@
+<org.openmrs.module.reporting.report.definition.ReportDefinition id="1" uuid="dd8f326d-bc8a-4808-94fd-c82f1e5f598a" retired="false">
+  <name>Regimen Analysis by TXNEW</name>
+  <description>Number of Patients Newly Started on Treatment by Regimen</description>
+  <creator id="2" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
+  <dateCreated id="3">2021-09-03 14:55:54 UTC</dateCreated>
+  <changedBy reference="2"/>
+  <dateChanged id="4">2021-09-03 14:57:32 UTC</dateChanged>
+  <parameters id="5">
+    <org.openmrs.module.reporting.evaluation.parameter.Parameter id="6">
+      <name>startDate</name>
+      <label>Cohort Start (ART Start Date)</label>
+      <type>java.util.Date</type>
+      <required>true</required>
+    </org.openmrs.module.reporting.evaluation.parameter.Parameter>
+    <org.openmrs.module.reporting.evaluation.parameter.Parameter id="7">
+      <name>endDate</name>
+      <label>Cohort End (ART Start Date)</label>
+      <type>java.util.Date</type>
+      <required>true</required>
+    </org.openmrs.module.reporting.evaluation.parameter.Parameter>
+  </parameters>
+  <id>254</id>
+  <dataSetDefinitions class="linked-hash-map" id="8">
+    <entry>
+      <string>RegimenAnalysisActiveTXNEW</string>
+      <org.openmrs.module.reporting.evaluation.parameter.Mapped id="9">
+        <parameterizable class="org.openmrs.module.reporting.dataset.definition.SqlDataSetDefinition" id="10" uuid="74cdad83-2b6d-44f4-99ac-214cebe6d62a"/>
+        <parameterMappings id="11">
+          <entry>
+            <string>endDate</string>
+            <string>${endDate}</string>
+          </entry>
+          <entry>
+            <string>startDate</string>
+            <string>${startDate}</string>
+          </entry>
+        </parameterMappings>
+      </org.openmrs.module.reporting.evaluation.parameter.Mapped>
+    </entry>
+  </dataSetDefinitions>
+</org.openmrs.module.reporting.report.definition.ReportDefinition>
