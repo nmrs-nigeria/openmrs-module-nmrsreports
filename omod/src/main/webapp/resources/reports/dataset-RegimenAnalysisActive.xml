@@ -1,0 +1,117 @@
+<org.openmrs.module.reporting.dataset.definition.SqlDataSetDefinition id="1" uuid="ef4b93aa-c0bb-44a4-811b-69f392d310e5" retired="false">
+  <name>RegimenAnalysisActive</name>
+  <description>Regimen count by active patient</description>
+  <creator id="2" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
+  <dateCreated id="3">2021-09-02 09:39:23 UTC</dateCreated>
+  <changedBy reference="2"/>
+  <dateChanged id="4">2021-09-02 10:23:23 UTC</dateChanged>
+  <parameters id="5">
+    <org.openmrs.module.reporting.evaluation.parameter.Parameter id="6">
+      <name>startDate</name>
+      <label>Start Date</label>
+      <type>java.util.Date</type>
+      <required>true</required>
+    </org.openmrs.module.reporting.evaluation.parameter.Parameter>
+    <org.openmrs.module.reporting.evaluation.parameter.Parameter id="7">
+      <name>endDate</name>
+      <label>End Date</label>
+      <type>java.util.Date</type>
+      <required>true</required>
+    </org.openmrs.module.reporting.evaluation.parameter.Parameter>
+  </parameters>
+  <id>249</id>
+  <sqlQuery>SELECT &#xd;
+&#xd;
+linelist.regimenlinetext RegimenLine,&#xd;
+linelist.regimentext Regimen,&#xd;
+&#xd;
+SUM(IF(age0to4=1 AND sex=&apos;M&apos;,1,0)) as `Male 0-4 `,&#xd;
+SUM(IF(age0to4=1 AND sex=&apos;F&apos;,1,0)) as `Female 0-4 `,&#xd;
+SUM(IF(age5to9=1 AND sex=&apos;M&apos;,1,0)) as `Male 5-9 `,&#xd;
+SUM(IF(age5to9=1 AND sex=&apos;F&apos;,1,0)) as `Female 5-9`,&#xd;
+&#xd;
+SUM(IF(age10to14=1 AND sex=&apos;M&apos;,1,0)) as `Male 10-14`,&#xd;
+SUM(IF(age10to14=1 AND sex=&apos;F&apos;,1,0)) as `Female 10-14`,&#xd;
+&#xd;
+SUM(IF(age15to19=1 AND sex=&apos;M&apos;,1,0)) as `Male 15-19`,&#xd;
+SUM(IF(age15to19=1 AND sex=&apos;F&apos;,1,0)) as `Female 15-19`,&#xd;
+SUM(IF(age20to24=1 AND sex=&apos;M&apos;,1,0)) as `Male 20-24`,&#xd;
+SUM(IF(age20to24=1 AND sex=&apos;F&apos;,1,0)) as `Female 20-24`,&#xd;
+SUM(IF(age25to29=1 AND sex=&apos;M&apos;,1,0)) as `Male 25-29`,&#xd;
+SUM(IF(age25to29=1 AND sex=&apos;F&apos;,1,0)) as `Female 25-29`,&#xd;
+SUM(IF(age30to34=1 AND sex=&apos;M&apos;,1,0)) as `Male 30-34`,&#xd;
+SUM(IF(age30to34=1 AND sex=&apos;F&apos;,1,0)) as `Female 30-34`,&#xd;
+SUM(IF(age35to39=1 AND sex=&apos;M&apos;,1,0)) as `Male 35-34`,&#xd;
+SUM(IF(age35to39=1 AND sex=&apos;F&apos;,1,0)) as `Female 39-34`,&#xd;
+SUM(IF(age40to44=1 AND sex=&apos;M&apos;,1,0)) as `Male 40-44`,&#xd;
+SUM(IF(age40to44=1 AND sex=&apos;F&apos;,1,0)) as `Female 40-44`,&#xd;
+SUM(IF(age45to49=1 AND sex=&apos;M&apos;,1,0)) as `Male 45-49`,&#xd;
+SUM(IF(age45to49=1 AND sex=&apos;F&apos;,1,0)) as `Female 45-49`,&#xd;
+SUM(IF(age50above=1 AND sex=&apos;M&apos;,1,0)) as `Male 50+`,&#xd;
+SUM(IF(age50above=1 AND sex=&apos;F&apos;,1,0)) as `Female 50+`&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+from&#xd;
+&#xd;
+(&#xd;
+&#xd;
+select &#xd;
+&#xd;
+patient.patient_id,&#xd;
+&#xd;
+person.gender as sex,&#xd;
+&#xd;
+TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) as age,&#xd;
+&#xd;
+IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) BETWEEN 0 AND 4,1,0) as age0to4,&#xd;
+IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) BETWEEN 5 AND 9,1,0) as age5to9,&#xd;
+IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) BETWEEN 10 AND 14,1,0) as age10to14,&#xd;
+IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) BETWEEN 15 AND 19,1,0) as age15to19,&#xd;
+IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) BETWEEN 20 AND 24,1,0) as age20to24,&#xd;
+IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) BETWEEN 25 AND 29,1,0) as age25to29,&#xd;
+IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) BETWEEN 30 AND 34,1,0) as age30to34,&#xd;
+IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) BETWEEN 35 AND 39,1,0) as age35to39,&#xd;
+IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) BETWEEN 40 AND 44,1,0) as age40to44,&#xd;
+IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) BETWEEN 45 AND 49,1,0) as age45to49,&#xd;
+IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) &gt;=50,1,0) as age50above,&#xd;
+&#xd;
+getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165708,27,curdate())) as regimenlinetext,&#xd;
+&#xd;
+getcodedintvalueobs(getmaxconceptobsidwithformid(patient.patient_id,165708,27,curdate())) as regimenlinecoded,&#xd;
+&#xd;
+getcurrentregimen(getcodedintvalueobs(getmaxconceptobsidwithformid(patient.patient_id,165708,27,curdate())),getencounterid(getmaxconceptobsidwithformid(patient.patient_id,165708,27,curdate()))) as regimentext,&#xd;
+&#xd;
+getcodedintvalueobs(&#xd;
+&#xd;
+getobswithencounterid(&#xd;
+getencounterid(getmaxconceptobsidwithformid(patient.patient_id,165708,27,curdate()))&#xd;
+,getcodedintvalueobs(getmaxconceptobsidwithformid(patient.patient_id,165708,27,curdate())))) as regimencoded,&#xd;
+getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,curdate())) as lastpickupdate,&#xd;
+&#xd;
+&#xd;
+&#xd;
+IFNULL (getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165470,13,curdate())),getoutcome(&#xd;
+getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,curdate())),&#xd;
+getconceptval(getmaxconceptobsidwithformid(patient.patient_id,162240,27,curdate()),159368,patient.patient_id) ,&#xd;
+28,&#xd;
+IF(curdate() IS NULL or curdate() = &apos;&apos;, CURDATE(),curdate())&#xd;
+&#xd;
+))  as statustext&#xd;
+&#xd;
+&#xd;
+from &#xd;
+patient&#xd;
+INNER JOIN person on(person.person_id=patient.patient_id and patient.voided=0)&#xd;
+LEFT JOIN patient_identifier pid1 on(pid1.patient_id=patient.patient_id and patient.voided=0 and pid1.identifier_type=4 and pid1.voided=0)&#xd;
+WHERE patient.voided=0 and pid1.identifier IS NOT NULL ) as linelist&#xd;
+where linelist.statustext=&apos;Active&apos;&#xd;
+GROUP BY linelist.regimenlinecoded,linelist.regimencoded;&#xd;
+&#xd;
+&#xd;
+</sqlQuery>
+</org.openmrs.module.reporting.dataset.definition.SqlDataSetDefinition>

@@ -4,7 +4,7 @@
   <creator id="2" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
   <dateCreated id="3">2019-07-08 23:21:26 UTC</dateCreated>
   <changedBy reference="2"/>
-  <dateChanged id="4">2021-09-02 04:12:23 UTC</dateChanged>
+  <dateChanged id="4">2021-09-04 02:19:18 UTC</dateChanged>
   <parameters id="5">
     <org.openmrs.module.reporting.evaluation.parameter.Parameter id="6">
       <name>startDate</name>
@@ -21,7 +21,10 @@
   </parameters>
   <id>35</id>
   <sqlQuery>select &#xd;
-global_property.property_value as DatimCode,&#xd;
+nigeria_datimcode_mapping.state_name as `State`,&#xd;
+nigeria_datimcode_mapping.lga_name as `LGA`,&#xd;
+gp1.property_value as DatimCode,&#xd;
+gp2.property_value as FacilityName,&#xd;
 pid1.identifier as `PatientUniqueID`,&#xd;
 pid2.identifier as  `PatientHospitalNo`,&#xd;
 pid3.identifier as  `ANCNoIdentifier`,&#xd;
@@ -35,12 +38,14 @@ MAX(IF(obs.concept_id=160540,cn1.name,null)) as CareEntryPoint,&#xd;
 &#xd;
 getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,166369,23,:endDate)) as `KPType`,&#xd;
 &#xd;
+TIMESTAMPDIFF(MONTH,getdatevalueobsid(getmaxconceptobsid(patient.patient_id,159599,:endDate)),getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,:endDate))) as MonthsOnART,&#xd;
+&#xd;
 MAX(IF(obs.concept_id=160534,DATE_FORMAT(obs.value_datetime,&apos;%d-%b-%Y&apos;),null)) as DateTransferredIn,&#xd;
 &#xd;
 MAX(IF(obs.concept_id=165242,cn1.name,null)) as TransferInStatus,&#xd;
 &#xd;
+DATE_FORMAT(getdatevalueobsid(getmaxconceptobsid(patient.patient_id,159599,:endDate)),&apos;%d-%b-%Y&apos;) as `ARTStartDate`,&#xd;
 &#xd;
-MAX(IF(obs.concept_id=159599,DATE_FORMAT(obs.value_datetime,&apos;%d-%b-%Y&apos;),null)) as `ARTStartDate`,&#xd;
 &#xd;
 DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,:endDate)),&apos;%d-%b-%Y&apos;) as `LastPickupDate`,&#xd;
 &#xd;
@@ -72,7 +77,9 @@ MAX(IF((obs.concept_id=1427 AND person.gender=&apos;F&apos;),obs.value_datetime,
 &#xd;
 getnumericvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,856,21,:endDate)) as `CurrentViralLoad(c/ml)`,&#xd;
 &#xd;
-DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,856,21,:endDate)),&apos;%d-%b-%Y&apos;) as `ViralLoadSampleCollectionDate`,&#xd;
+DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,856,21,:endDate)),&apos;%d-%b-%Y&apos;) as `ViralLoadEncounterDate`,&#xd;
+&#xd;
+DATE_FORMAT(getdatevalueobsid(getobswithencounterid(getencounterid(getmaxconceptobsidwithformid(patient.patient_id,856,21,:endDate)),159951)),&apos;%d-%b-%Y&apos;) as `ViralLoadSampleCollectionDate`,&#xd;
 &#xd;
 DATE_FORMAT(getreporteddate(getencounterid(getmaxconceptobsidwithformid(patient.patient_id,856,21,:endDate)),165414,patient.patient_id),&apos;%d-%b-%Y&apos;) &#xd;
 as `ViralLoadReportedDate`,&#xd;
@@ -224,7 +231,9 @@ LEFT JOIN (&#xd;
    biometricinfo where template not like &apos;Rk1S%&apos; or CONVERT(new_template USING utf8) NOT LIKE &apos;Rk1S%&apos;&#xd;
 ) as invalidprint &#xd;
 on(patient.patient_id=invalidprint.patient_Id and patient.voided=0)&#xd;
-LEFT JOIN global_property on(global_property.property=&apos;facility_datim_code&apos;)&#xd;
+LEFT JOIN global_property gp1 on(gp1.property=&apos;facility_datim_code&apos;)&#xd;
+LEFT JOIN global_property gp2 on(gp2.property=&apos;Facility_Name&apos;)&#xd;
+LEFT JOIN nigeria_datimcode_mapping on(gp1.property_value=nigeria_datimcode_mapping.datim_code)&#xd;
 LEFT JOIN (&#xd;
 select &#xd;
 encounter.patient_id,&#xd;
