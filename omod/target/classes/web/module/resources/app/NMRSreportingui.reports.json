@@ -184,50 +184,50 @@
                 "requiredPrivilege": "App: reportingui.reports"
             },
            {
-      "id": "EncounterWithoutAddPastVisit",
-      "extensionPointId": "org.openmrs.module.reportingui.reports.dataquality",
-      "type": "link",
-      "label": "Error - Encounter Without Add Past Visits",
-      "url": "reportingui/runReport.page?reportDefinition=64b6148d-12b9-46df-bdba-896ae7504ae5",
-      "order": 1,
-      "requiredPrivilege": "App: reportingui.reports"
-    },
-{
-      "id": "DuplicateARTStartDate",
-      "extensionPointId": "org.openmrs.module.reportingui.reports.dataquality",
-      "type": "link",
-      "label": "Error - Duplicate ART Start Date",
-      "url": "reportingui/runReport.page?reportDefinition=5c4758bf-b1be-45ca-8924-daddc3963b24",
-      "order": 2,
-      "requiredPrivilege": "App: reportingui.reports"
-    },
-{
-      "id": "IncompleteViralLoadData",
-      "extensionPointId": "org.openmrs.module.reportingui.reports.dataquality",
-      "type": "link",
-      "label": "Error - Viral Loads Without Reported Dates",
-      "url": "reportingui/runReport.page?reportDefinition=33ddb8f8-3bfa-4953-b654-21d60966ec72",
-      "order": 3,
-      "requiredPrivilege": "App: reportingui.reports"
-    },
-{
-      "id": "PharmacyFormWithoutRegimen",
-      "extensionPointId": "org.openmrs.module.reportingui.reports.dataquality",
-      "type": "link",
-      "label": "Error - Pharmacy Forms Without Regimen",
-      "url": "reportingui/runReport.page?reportDefinition=5165f183-74f8-47ee-b84d-e18432524c13",
-      "order": 4,
-      "requiredPrivilege": "App: reportingui.reports"
-    },
-{
-      "id": "PharmacyFormWithoutDuration",
-      "extensionPointId": "org.openmrs.module.reportingui.reports.dataquality",
-      "type": "link",
-      "label": "Error - Pharmacy Forms Without Duration",
-      "url": "reportingui/runReport.page?reportDefinition=4d8abe9b-1ec7-4dd0-bc2f-727b79b9e7cf",
-      "order": 5,
-      "requiredPrivilege": "App: reportingui.reports"
-    }
+                "id": "Regimen Analysis by Active Patients",
+                "extensionPointId": "org.openmrs.module.reportingui.reports.monitoring",
+                "type": "link",
+                "label": "Regimen Analysis by Active Patients",
+                "url": "reportingui/runReport.page?reportDefinition=2a1fc43b-fdb9-478b-a8fd-2b0c00e2e1de",
+                "order": 19,
+                "requiredPrivilege": "App: reportingui.reports"
+            },
+           {
+                "id": "Regimen Analysis by TX_NEW",
+                "extensionPointId": "org.openmrs.module.reportingui.reports.monitoring",
+                "type": "link",
+                "label": "Regimen Analysis by TX_NEW",
+                "url": "reportingui/runReport.page?reportDefinition=dd8f326d-bc8a-4808-94fd-c82f1e5f598a",
+                "order": 20,
+                "requiredPrivilege": "App: reportingui.reports"
+            },
+
+           {
+                "id": "Drug Consumption By Date",
+                "extensionPointId": "org.openmrs.module.reportingui.reports.monitoring",
+                "type": "link",
+                "label": "Drug Consumption By Date",
+                "url": "reportingui/runReport.page?reportDefinition=d2900ea3-0bb0-42df-9aa7-f04a910977b4",
+                "order": 21,
+                "requiredPrivilege": "App: reportingui.reports"
+            },
+           
+           {
+                "id": "Drug Consumption By Month",
+                "extensionPointId": "org.openmrs.module.reportingui.reports.monitoring",
+                "type": "link",
+                "label": "Drug Consumption By Month",
+                "url": "reportingui/runReport.page?reportDefinition=4a9a49af-9c4e-42ae-8e9c-0727cf104a92",
+                "order": 22,
+                "requiredPrivilege": "App: reportingui.reports"
+            }
+
+
+        
+
+
+
+
    
    
    
