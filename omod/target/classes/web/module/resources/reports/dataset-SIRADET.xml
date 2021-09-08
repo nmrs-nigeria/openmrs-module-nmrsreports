@@ -4,7 +4,7 @@
   <creator id="2" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
   <dateCreated id="3">2019-07-08 23:21:26 UTC</dateCreated>
   <changedBy reference="2"/>
-  <dateChanged id="4">2021-09-04 02:19:18 UTC</dateChanged>
+  <dateChanged id="4">2021-09-08 04:58:49 UTC</dateChanged>
   <parameters id="5">
     <org.openmrs.module.reporting.evaluation.parameter.Parameter id="6">
       <name>startDate</name>
@@ -169,25 +169,32 @@ MAX(IF(obs2.concept_id in(164506,164507), DATE_FORMAT(obs2.obs_datetime,&apos;%d
 MAX(IF(obs2.concept_id in(164513,164514), cn2.name,null)) as `InitialSecondLineRegimen`,&#xd;
 MAX(IF(obs2.concept_id in(164513,164514), DATE_FORMAT(obs2.obs_datetime,&apos;%d-%b-%Y&apos;),null)) as `InitialSecondLineRegimenDate`,&#xd;
 &#xd;
-DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,DATE_SUB(:endDate,INTERVAL 3 MONTH))),&apos;%d-%b-%Y&apos;) as &#xd;
+DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,getendofquarter(DATE_SUB(:endDate,INTERVAL 3 MONTH)))),&apos;%d-%b-%Y&apos;) as &#xd;
 `LastPickupDatePreviousQuarter`,&#xd;
 &#xd;
-getconceptval(getmaxconceptobsidwithformid(patient.patient_id,162240,27,DATE_SUB(:endDate,INTERVAL 3 MONTH)),159368,patient.patient_id) as &#xd;
+getconceptval(getmaxconceptobsidwithformid(patient.patient_id,162240,27,getendofquarter(DATE_SUB(:endDate,INTERVAL 3 MONTH))),159368,patient.patient_id) as &#xd;
 `DrugDurationPreviousQuarter`,&#xd;
 &#xd;
-getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165470,13,DATE_SUB(:endDate,INTERVAL 3 MONTH))) as &#xd;
+getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165470,13,getendofquarter(DATE_SUB(:endDate,INTERVAL 3 MONTH)))) as &#xd;
 `PatientOutcomePreviousQuarter`,&#xd;
 &#xd;
-DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,165470,13,DATE_SUB(:endDate,INTERVAL 3 MONTH))),&apos;%d-%b-%Y&apos;) as &#xd;
+DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,165470,13,getendofquarter(DATE_SUB(:endDate,INTERVAL 3 MONTH)))),&apos;%d-%b-%Y&apos;) as &#xd;
 `PatientOutcomeDatePreviousQuarter`,&#xd;
 &#xd;
-IFNULL(getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165470,13,DATE_SUB(:endDate,INTERVAL 3 MONTH))),getoutcome(&#xd;
-getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,DATE_SUB(:endDate,INTERVAL 3 MONTH))),&#xd;
-getconceptval(getmaxconceptobsidwithformid(patient.patient_id,162240,27,DATE_SUB(:endDate,INTERVAL 3 MONTH)),159368,patient.patient_id) ,&#xd;
-28,&#xd;
-IF(:endDate IS NULL or :endDate = &apos;&apos;, CURDATE(),DATE_SUB(:endDate,INTERVAL 3 MONTH))&#xd;
+IFNULL(&#xd;
 &#xd;
-))  as `ARTStatusPreviousQuarter`&#xd;
+&#xd;
+getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165470,13,DATE_SUB(:endDate,INTERVAL 3 MONTH))),&#xd;
+&#xd;
+getoutcome(&#xd;
+getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,getendofquarter(DATE_SUB(:endDate,INTERVAL 3 MONTH)))),&#xd;
+getconceptval(getmaxconceptobsidwithformid(patient.patient_id,162240,27,getendofquarter(DATE_SUB(:endDate,INTERVAL 3 MONTH))),159368,patient.patient_id) ,&#xd;
+28,&#xd;
+IF(:endDate IS NULL or :endDate = &apos;&apos;, CURDATE(),getendofquarter(DATE_SUB(:endDate,INTERVAL 3 MONTH)))&#xd;
+&#xd;
+)&#xd;
+&#xd;
+)  as `ARTStatusPreviousQuarter`&#xd;
 &#xd;
 &#xd;
 &#xd;
@@ -211,7 +218,7 @@ obs.concept_id,&#xd;
  MAX(obs.obs_datetime) as last_date, &#xd;
 MIN(obs.obs_datetime) as first_date&#xd;
 from obs INNER JOIN encounter on(encounter.encounter_id=obs.encounter_id) where encounter.form_id!=48 and obs.voided=0 and obs.obs_datetime&lt;=:endDate and concept_id in(159599,165708,159368,164506,164513,164507,164514,165702,165703,165050,&#xd;
-856,164980,165470,159635,5089,165988,1659,164852,166096,1113,159431,162240,165242,165724,166156,166158,165727,164982,165414,5596,165775,160540,165469,5096,1427,160642) GROUP BY obs.person_id, obs.concept_id) as sinner on (sinner.person_id=patient.patient_id and patient.voided=0)&#xd;
+856,164980,165470,159635,5089,165988,1659,164852,166096,1113,159431,162240,165242,165724,166156,166158,165727,164982,165414,5596,165775,160540,165469,5096,1427,160642,160534) GROUP BY obs.person_id, obs.concept_id) as sinner on (sinner.person_id=patient.patient_id and patient.voided=0)&#xd;
 INNER JOIN obs on(obs.person_id=patient.patient_id and obs.concept_id=sinner.concept_id and obs.obs_datetime=sinner.last_date and obs.voided=0 and obs.obs_datetime&lt;=:endDate)&#xd;
 INNER JOIN obs obs2 on(obs2.person_id=patient.patient_id and obs2.concept_id=sinner.concept_id and obs2.obs_datetime=sinner.first_date and obs2.voided=0 and obs2.obs_datetime&lt;=:endDate)&#xd;
 LEFT join encounter enc on(enc.encounter_id=obs.encounter_id and enc.voided=0 and obs.voided=0)&#xd;
