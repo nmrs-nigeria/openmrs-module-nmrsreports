@@ -4,7 +4,7 @@
   <creator id="2" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
   <dateCreated id="3">2019-07-01 12:04:25 UTC</dateCreated>
   <changedBy reference="2"/>
-  <dateChanged id="4">2020-09-28 11:30:54 UTC</dateChanged>
+  <dateChanged id="4">2021-09-08 04:27:55 UTC</dateChanged>
   <parameters id="5">
     <org.openmrs.module.reporting.evaluation.parameter.Parameter id="6">
       <name>startDate</name>
@@ -27,20 +27,29 @@ pid2.identifier as HospID,&#xd;
 pid3.identifier as ANCNo,&#xd;
 pid4.identifier as HTSID,&#xd;
 pid5.identifier as HEINo,&#xd;
+MAX(IF(obs.concept_id=165715,obs.value_text, NULL)) as `SampleID`,&#xd;
 person.gender as Sex,&#xd;
 person.birthdate as DoB,&#xd;
 TIMESTAMPDIFF(YEAR,person.birthdate,curdate()) as Age,&#xd;
-DATE_FORMAT(encounter.encounter_datetime,&apos;%d-%b-%Y&apos;) as VisitDateSameAsSampleCollectionDate,&#xd;
+DATE_FORMAT(encounter.encounter_datetime,&apos;%d-%b-%Y&apos;) as VisitDate,&#xd;
 form.name as PMMForm,&#xd;
 CONCAT(pn2.given_name,&apos;&apos;,pn2.family_name) as Provider,&#xd;
-MAX(IF(obs.concept_id=856,obs.value_numeric, NULL)) AS ViralLoad,&#xd;
+&#xd;
+MAX(IF(obs.concept_id=856,obs.value_numeric, NULL)) AS ViralLoadResult,&#xd;
 MAX(IF(obs.concept_id=164989,obs.value_text, NULL)) AS OrderedBy,&#xd;
 MAX(IF(obs.concept_id=164983,obs.value_text, NULL)) AS CheckedBy,&#xd;
 MAX(IF(obs.concept_id=164982,obs.value_text, NULL)) AS ReportedBy,&#xd;
-MAX(IF(obs.concept_id=164989,obs.value_datetime, NULL)) AS OrderedDate,&#xd;
-MAX(IF(obs.concept_id=159951,obs.value_datetime, NULL)) AS SampleCollectionDate,&#xd;
-MAX(IF(obs.concept_id=164984,obs.value_datetime, NULL)) AS CheckedDate,&#xd;
-MAX(IF(obs.concept_id=165414,obs.value_datetime, NULL)) AS ReportedDate&#xd;
+MAX(IF(obs.concept_id=164989,DATE_FORMAT(obs.value_datetime,&apos;%d-%b-%Y&apos;), NULL)) AS OrderedDate,&#xd;
+MAX(IF(obs.concept_id=159951,DATE_FORMAT(obs.value_datetime,&apos;%d-%b-%Y&apos;), NULL)) AS SampleCollectionDate,&#xd;
+MAX(IF(obs.concept_id=164984,DATE_FORMAT(obs.value_datetime,&apos;%d-%b-%Y&apos;), NULL)) AS CheckedDate,&#xd;
+MAX(IF(obs.concept_id=165414,DATE_FORMAT(obs.value_datetime,&apos;%d-%b-%Y&apos;), NULL)) AS ReportedDate,&#xd;
+MAX(IF(obs.concept_id=166423,DATE_FORMAT(obs.value_datetime,&apos;%d-%b-%Y&apos;), NULL)) AS ResultDate,&#xd;
+MAX(IF(obs.concept_id=166424,DATE_FORMAT(obs.value_datetime,&apos;%d-%b-%Y&apos;), NULL)) AS AssayDate,&#xd;
+MAX(IF(obs.concept_id=166425,DATE_FORMAT(obs.value_datetime,&apos;%d-%b-%Y&apos;), NULL)) AS ApprovalDate,&#xd;
+MAX(IF(obs.concept_id=166422,cn1.name, NULL)) AS ResultStatus&#xd;
+&#xd;
+&#xd;
+&#xd;
 FROM&#xd;
 obs&#xd;
 inner join patient on(patient.patient_id=obs.person_id and patient.voided=0)&#xd;
@@ -66,7 +75,6 @@ where &#xd;
 encounter.form_id =21&#xd;
  and&#xd;
 encounter.encounter_datetime BETWEEN :startDate and :endDate&#xd;
-and&#xd;
-obs.concept_id in (856,164989,164983,164982,164989,164984,165414,159951)&#xd;
+and encounter.voided=0&#xd;
 GROUP BY encounter.patient_id,obs.encounter_id;</sqlQuery>
 </org.openmrs.module.reporting.dataset.definition.SqlDataSetDefinition>
