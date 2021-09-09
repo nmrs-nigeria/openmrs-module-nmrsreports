@@ -1,0 +1,93 @@
+<org.openmrs.module.reporting.dataset.definition.SqlDataSetDefinition id="1" uuid="f1e4ee31-bf2c-4473-9d92-41975ae3e550" retired="false">
+  <name>RegimenAnalysisForPediatricByWeight</name>
+  <description>Regimen analysis for pediatrics by weight</description>
+  <creator id="2" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
+  <dateCreated id="3">2021-09-09 12:22:59 UTC</dateCreated>
+  <changedBy reference="2"/>
+  <dateChanged id="4">2021-09-09 13:21:59 UTC</dateChanged>
+  <parameters id="5">
+    <org.openmrs.module.reporting.evaluation.parameter.Parameter id="6">
+      <name>startDate</name>
+      <label>Start Date</label>
+      <type>java.util.Date</type>
+      <required>true</required>
+    </org.openmrs.module.reporting.evaluation.parameter.Parameter>
+    <org.openmrs.module.reporting.evaluation.parameter.Parameter id="7">
+      <name>endDate</name>
+      <label>End Date</label>
+      <type>java.util.Date</type>
+      <required>true</required>
+    </org.openmrs.module.reporting.evaluation.parameter.Parameter>
+  </parameters>
+  <id>257</id>
+  <sqlQuery>SELECT &#xd;
+&#xd;
+linelist.regimenlinetext RegimenLine,&#xd;
+linelist.regimentext Regimen,&#xd;
+&#xd;
+SUM(IF(weightlessthan20=1 AND sex=&apos;M&apos;,1,0)) as `Kg &gt;20 Male`,&#xd;
+SUM(IF(weightlessthan20=1 AND sex=&apos;F&apos;,1,0)) as `Kg &gt;20 Female`,&#xd;
+SUM(IF(weight20to30=1 AND sex=&apos;M&apos;,1,0)) as `Kg 20&lt;30 Male`,&#xd;
+SUM(IF(weight20to30=1 AND sex=&apos;F&apos;,1,0)) as `Kg 20&lt;30 Female`,&#xd;
+&#xd;
+SUM(IF(weightgt30=1 AND sex=&apos;M&apos;,1,0)) as `Kg 30+ Male`,&#xd;
+SUM(IF(weightgt30=1 AND sex=&apos;F&apos;,1,0)) as `Kg 30+ Female`,&#xd;
+SUM(IF(linelist.regimenlinecoded,1,0)) as `Total`&#xd;
+&#xd;
+from&#xd;
+&#xd;
+(&#xd;
+&#xd;
+select &#xd;
+&#xd;
+patient.patient_id,&#xd;
+&#xd;
+person.gender as sex,&#xd;
+&#xd;
+TIMESTAMPDIFF(YEAR,person.birthdate,:endDate) as age,&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165708,27,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;))) as regimenlinetext,&#xd;
+&#xd;
+getcodedintvalueobs(getmaxconceptobsidwithformid(patient.patient_id,165708,27,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;))) as regimenlinecoded,&#xd;
+&#xd;
+getcurrentregimen(getcodedintvalueobs(getmaxconceptobsidwithformid(patient.patient_id,165708,27,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;))),getencounterid(getmaxconceptobsidwithformid(patient.patient_id,165708,27,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;)))) as regimentext,&#xd;
+&#xd;
+getcodedintvalueobs(&#xd;
+&#xd;
+getobswithencounterid(&#xd;
+getencounterid(getmaxconceptobsidwithformid(patient.patient_id,165708,27,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;)))&#xd;
+,getcodedintvalueobs(getmaxconceptobsidwithformid(patient.patient_id,165708,27,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;))))) as regimencoded,&#xd;
+getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;))) as lastpickupdate,&#xd;
+&#xd;
+getdatevalueobsid(getmaxconceptobsid(patient.patient_id,159599,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;))) as artstartdate,&#xd;
+&#xd;
+@weight_val:=getnumericvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,5089,14,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;))) as weight,&#xd;
+&#xd;
+IF(@weight_val&lt;20,1,0) as weightlessthan20,&#xd;
+IF(@weight_val&gt;=20 AND @weight_val&lt;30,1,0) as weight20to30,&#xd;
+IF(@weight_val&gt;=30,1,0) as weightgt30,&#xd;
+&#xd;
+@statustext:=IFNULL (getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165470,13,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;))),getoutcome(&#xd;
+getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;))),&#xd;
+getconceptval(getmaxconceptobsidwithformid(patient.patient_id,162240,27,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;)),159368,patient.patient_id) ,&#xd;
+28,&#xd;
+STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;)&#xd;
+&#xd;
+&#xd;
+))  as statustext&#xd;
+&#xd;
+&#xd;
+from &#xd;
+patient&#xd;
+INNER JOIN person on(person.person_id=patient.patient_id and patient.voided=0)&#xd;
+LEFT JOIN patient_identifier pid1 on(pid1.patient_id=patient.patient_id and patient.voided=0 and pid1.identifier_type=4 and pid1.voided=0)&#xd;
+WHERE patient.voided=0 and pid1.identifier IS NOT NULL  ) as linelist&#xd;
+where linelist.age&lt;15 and linelist.statustext=&apos;Active&apos;&#xd;
+GROUP BY linelist.regimenlinecoded,linelist.regimencoded;&#xd;
+&#xd;
+&#xd;
+</sqlQuery>
+</org.openmrs.module.reporting.dataset.definition.SqlDataSetDefinition>

@@ -183,6 +183,12 @@
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
+     <changeSet id="fn_getoutcome_20210908_0612" author="Bright" runOnChange="true">
+        <sqlFile path="dataquality/functions/fn_getoutcome.sql"
+                 stripComments="true"
+                 splitStatements="true"
+                 endDelimiter="/0xd"/>
+    </changeSet>
     
     
     <!-- Error - Pharmacy Forms Without Duration -->
