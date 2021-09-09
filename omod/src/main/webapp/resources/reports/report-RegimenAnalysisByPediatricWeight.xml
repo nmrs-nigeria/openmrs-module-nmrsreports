@@ -1,0 +1,41 @@
+<org.openmrs.module.reporting.report.definition.ReportDefinition id="1" uuid="8ff55386-a22d-4c68-8389-620301d40dc5" retired="false">
+  <name>Pediatric Regimen Analysis By Weight </name>
+  <description>Number of Active Pediatric (&lt;15 yrs) Patients by Regimen and Body Weight</description>
+  <creator id="2" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
+  <dateCreated id="3">2021-09-09 23:22:52 UTC</dateCreated>
+  <changedBy reference="2"/>
+  <dateChanged id="4">2021-09-09 23:24:20 UTC</dateChanged>
+  <parameters id="5">
+    <org.openmrs.module.reporting.evaluation.parameter.Parameter id="6">
+      <name>startDate</name>
+      <label>Start Date</label>
+      <type>java.util.Date</type>
+      <required>true</required>
+    </org.openmrs.module.reporting.evaluation.parameter.Parameter>
+    <org.openmrs.module.reporting.evaluation.parameter.Parameter id="7">
+      <name>endDate</name>
+      <label>End Date</label>
+      <type>java.util.Date</type>
+      <required>true</required>
+    </org.openmrs.module.reporting.evaluation.parameter.Parameter>
+  </parameters>
+  <id>258</id>
+  <dataSetDefinitions class="linked-hash-map" id="8">
+    <entry>
+      <string>RegimenAnalysisForPediatricByWeight</string>
+      <org.openmrs.module.reporting.evaluation.parameter.Mapped id="9">
+        <parameterizable class="org.openmrs.module.reporting.dataset.definition.SqlDataSetDefinition" id="10" uuid="f1e4ee31-bf2c-4473-9d92-41975ae3e550"/>
+        <parameterMappings id="11">
+          <entry>
+            <string>endDate</string>
+            <string>${endDate}</string>
+          </entry>
+          <entry>
+            <string>startDate</string>
+            <string>${startDate}</string>
+          </entry>
+        </parameterMappings>
+      </org.openmrs.module.reporting.evaluation.parameter.Mapped>
+    </entry>
+  </dataSetDefinitions>
+</org.openmrs.module.reporting.report.definition.ReportDefinition>
