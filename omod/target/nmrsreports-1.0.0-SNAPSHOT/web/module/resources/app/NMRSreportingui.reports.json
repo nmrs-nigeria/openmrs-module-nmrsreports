@@ -202,13 +202,23 @@
                 "requiredPrivilege": "App: reportingui.reports"
             },
 
+            {
+                "id": "Pediatric Regimen Analysis by Weight",
+                "extensionPointId": "org.openmrs.module.reportingui.reports.monitoring",
+                "type": "link",
+                "label": "Pediatric Regimen Analysis by Weight",
+                "url": "reportingui/runReport.page?reportDefinition=8ff55386-a22d-4c68-8389-620301d40dc5",
+                "order": 21,
+                "requiredPrivilege": "App: reportingui.reports"
+            },
+
            {
                 "id": "Drug Consumption By Date",
                 "extensionPointId": "org.openmrs.module.reportingui.reports.monitoring",
                 "type": "link",
                 "label": "Drug Consumption By Date",
                 "url": "reportingui/runReport.page?reportDefinition=d2900ea3-0bb0-42df-9aa7-f04a910977b4",
-                "order": 21,
+                "order": 22,
                 "requiredPrivilege": "App: reportingui.reports"
             },
            
@@ -218,7 +228,7 @@
                 "type": "link",
                 "label": "Drug Consumption By Month",
                 "url": "reportingui/runReport.page?reportDefinition=4a9a49af-9c4e-42ae-8e9c-0727cf104a92",
-                "order": 22,
+                "order": 23,
                 "requiredPrivilege": "App: reportingui.reports"
             }
 
