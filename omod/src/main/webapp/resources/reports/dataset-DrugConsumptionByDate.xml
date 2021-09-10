@@ -4,7 +4,7 @@
   <creator id="2" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
   <dateCreated id="3">2021-09-03 13:31:36 UTC</dateCreated>
   <changedBy reference="2"/>
-  <dateChanged id="4">2021-09-03 13:32:03 UTC</dateChanged>
+  <dateChanged id="4">2021-09-10 00:25:44 UTC</dateChanged>
   <parameters id="5">
     <org.openmrs.module.reporting.evaluation.parameter.Parameter id="6">
       <name>startDate</name>
@@ -21,7 +21,6 @@
   </parameters>
   <id>252</id>
   <sqlQuery>&#xd;
-&#xd;
 select&#xd;
    &#xd;
 linelist.drugname as Drug,&#xd;
@@ -42,7 +41,7 @@ pid1.identifier as pepfarid,&#xd;
 pid2.identifier as hospid,&#xd;
 person.gender as sex,&#xd;
 person.birthdate as dob,&#xd;
-TIMESTAMPDIFF(YEAR, person.birthdate,curdate()) as age,&#xd;
+TIMESTAMPDIFF(YEAR, person.birthdate,:endDate) as age,&#xd;
 DATE_FORMAT(encounter.encounter_datetime,&apos;%d-%b-%Y&apos;) as dispensedate,&#xd;
 form.name as pmmform,&#xd;
 CONCAT(pn2.given_name,&apos;&apos;,pn2.family_name) as dispensedby,&#xd;
