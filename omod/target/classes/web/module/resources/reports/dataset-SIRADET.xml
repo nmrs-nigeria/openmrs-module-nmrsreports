@@ -4,7 +4,7 @@
   <creator id="2" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
   <dateCreated id="3">2019-07-08 23:21:26 UTC</dateCreated>
   <changedBy reference="2"/>
-  <dateChanged id="4">2021-09-08 04:58:49 UTC</dateChanged>
+  <dateChanged id="4">2021-09-10 00:56:00 UTC</dateChanged>
   <parameters id="5">
     <org.openmrs.module.reporting.evaluation.parameter.Parameter id="6">
       <name>startDate</name>
@@ -126,9 +126,9 @@ IF(TIMESTAMPDIFF(YEAR,person.birthdate,curdate())&lt;5,TIMESTAMPDIFF(MONTH,perso
 DATE_FORMAT(person.birthdate,&apos;%d-%b-%Y&apos;) as `DateOfBirth`,&#xd;
 IF(person.dead=1,&quot;Dead&quot;,&quot;&quot;) as MarkAsDeseased,&#xd;
 IF(person.dead=1,person.death_date,&quot;&quot;) as MarkAsDeseasedDeathDate,&#xd;
-CONCAT(&quot;+234-&quot;,psn_atr.value) AS RegistrationPhoneNo,&#xd;
-MAX(IF(obs.concept_id=159635,CONCAT(&quot;+234-&quot;,obs.value_text),null)) as `NextofKinPhoneNo`,&#xd;
-MAX(IF(obs.concept_id=160642,CONCAT(&quot;+234-&quot;,obs.value_text),null)) as &#xd;
+CONCAT(&quot;234&quot;,TRIM(LEADING &apos;0&apos; FROM psn_atr.value)) AS RegistrationPhoneNo,&#xd;
+MAX(IF(obs.concept_id=159635,CONCAT(&quot;234&quot;,TRIM(LEADING &apos;0&apos; FROM obs.value_text)),null)) as `NextofKinPhoneNo`,&#xd;
+MAX(IF(obs.concept_id=160642,CONCAT(&quot;234&quot;,TRIM(LEADING &apos;0&apos; FROM obs.value_text)),null)) as &#xd;
 `TreatmentSupporterPhoneNo`,&#xd;
 &#xd;
 IF(biometrictable.patient_Id IS NOT NULL,&apos;Yes&apos;,&apos;No&apos;) as BiometricCaptured,&#xd;
