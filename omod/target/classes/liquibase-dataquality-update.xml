@@ -183,8 +183,15 @@
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
-     <changeSet id="fn_getoutcome_20210908_0612" author="Bright" runOnChange="true">
+    <changeSet id="fn_getoutcome_20210908_0612" author="Bright" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_getoutcome.sql"
+                 stripComments="true"
+                 splitStatements="true"
+                 endDelimiter="/0xd"/>
+    </changeSet>
+    
+    <changeSet id="fn_previousobsfromform_20210910_0355" author="Bright" runOnChange="true">
+        <sqlFile path="dataquality/functions/fn_previousobsfromform.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
@@ -807,6 +814,20 @@
         </sql>
         
     </changeSet>
+    
+    <!-- Force export type for Pediatric Regimen Analysis By Weight to show -->
+    <changeSet id='report_update_202109100415' author='Bright'>
+        <sql>
+            <![CDATA[
+	        REPLACE INTO `reporting_report_design` (`id`,`uuid`,`name`,`description`,`renderer_type`,`properties`,`creator`,`date_created`,`changed_by`,`date_changed`,`retired`,`retired_by`,`date_retired`,`retire_reason`,`report_definition_uuid`) VALUES (119,'03405a61-8f0b-482c-8217-d60bb697185c','CSV','CSV','org.openmrs.module.reporting.report.renderer.CsvReportRenderer','#Fri Sep 10 00:23:20 WAT 2021\r\n',1,'2021-09-10 00:23:20',NULL,NULL,0,NULL,NULL,NULL,'8ff55386-a22d-4c68-8389-620301d40dc5');
+                REPLACE INTO `reporting_report_design` (`id`,`uuid`,`name`,`description`,`renderer_type`,`properties`,`creator`,`date_created`,`changed_by`,`date_changed`,`retired`,`retired_by`,`date_retired`,`retire_reason`,`report_definition_uuid`) VALUES (120,'251d12d6-43a5-4816-be6f-cdb63efc5caf','Excel','Excel','org.openmrs.module.reporting.report.renderer.XlsReportRenderer','#Fri Sep 10 00:23:37 WAT 2021\r\n',1,'2021-09-10 00:23:37',NULL,NULL,0,NULL,NULL,NULL,'8ff55386-a22d-4c68-8389-620301d40dc5');
+                REPLACE INTO `reporting_report_design` (`id`,`uuid`,`name`,`description`,`renderer_type`,`properties`,`creator`,`date_created`,`changed_by`,`date_changed`,`retired`,`retired_by`,`date_retired`,`retire_reason`,`report_definition_uuid`) VALUES (121,'a58a2fbe-ef94-4aa9-bbf4-8bf480e254d3','Web','Web','org.openmrs.module.reporting.report.renderer.SimpleHtmlReportRenderer','#Fri Sep 10 00:23:58 WAT 2021\r\n',1,'2021-09-10 00:23:58',NULL,NULL,0,NULL,NULL,NULL,'8ff55386-a22d-4c68-8389-620301d40dc5');
+
+		]]>
+        </sql>
+        
+    </changeSet>
+
 
 
     <changeSet id="fn_getconceptvalv2_20211707_2040" author="temiye" runOnChange="true">
