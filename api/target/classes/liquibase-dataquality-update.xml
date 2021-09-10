@@ -190,6 +190,13 @@
                  endDelimiter="/0xd"/>
     </changeSet>
     
+    <changeSet id="fn_previousobsfromform_20210910_0355" author="Bright" runOnChange="true">
+        <sqlFile path="dataquality/functions/fn_previousobsfromform.sql"
+                 stripComments="true"
+                 splitStatements="true"
+                 endDelimiter="/0xd"/>
+    </changeSet>
+    
     
     <!-- Error - Pharmacy Forms Without Duration -->
     <changeSet id="report_update_20212702540" author="Bright">
