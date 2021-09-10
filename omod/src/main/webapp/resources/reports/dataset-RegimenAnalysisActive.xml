@@ -4,7 +4,7 @@
   <creator id="2" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
   <dateCreated id="3">2021-09-02 09:39:23 UTC</dateCreated>
   <changedBy reference="2"/>
-  <dateChanged id="4">2021-09-02 10:23:23 UTC</dateChanged>
+  <dateChanged id="4">2021-09-09 23:56:54 UTC</dateChanged>
   <parameters id="5">
     <org.openmrs.module.reporting.evaluation.parameter.Parameter id="6">
       <name>startDate</name>
@@ -24,10 +24,11 @@
 &#xd;
 linelist.regimenlinetext RegimenLine,&#xd;
 linelist.regimentext Regimen,&#xd;
-&#xd;
-SUM(IF(age0to4=1 AND sex=&apos;M&apos;,1,0)) as `Male 0-4 `,&#xd;
-SUM(IF(age0to4=1 AND sex=&apos;F&apos;,1,0)) as `Female 0-4 `,&#xd;
-SUM(IF(age5to9=1 AND sex=&apos;M&apos;,1,0)) as `Male 5-9 `,&#xd;
+SUM(IF(ageless1=1 AND sex=&apos;M&apos;,1,0)) as `Male &lt;1`,&#xd;
+SUM(IF(ageless1=1 AND sex=&apos;F&apos;,1,0)) as `Female &lt;1`,&#xd;
+SUM(IF(age1to4=1 AND sex=&apos;M&apos;,1,0)) as `Male 1-4`,&#xd;
+SUM(IF(age1to4=1 AND sex=&apos;F&apos;,1,0)) as `Female 1-4`,&#xd;
+SUM(IF(age5to9=1 AND sex=&apos;M&apos;,1,0)) as `Male 5-9`,&#xd;
 SUM(IF(age5to9=1 AND sex=&apos;F&apos;,1,0)) as `Female 5-9`,&#xd;
 &#xd;
 SUM(IF(age10to14=1 AND sex=&apos;M&apos;,1,0)) as `Male 10-14`,&#xd;
@@ -48,7 +49,8 @@ SUM(IF(age40to44=1 AND sex=&apos;F&apos;,1,0)) as `Female 40-44`,&#xd;
 SUM(IF(age45to49=1 AND sex=&apos;M&apos;,1,0)) as `Male 45-49`,&#xd;
 SUM(IF(age45to49=1 AND sex=&apos;F&apos;,1,0)) as `Female 45-49`,&#xd;
 SUM(IF(age50above=1 AND sex=&apos;M&apos;,1,0)) as `Male 50+`,&#xd;
-SUM(IF(age50above=1 AND sex=&apos;F&apos;,1,0)) as `Female 50+`&#xd;
+SUM(IF(age50above=1 AND sex=&apos;F&apos;,1,0)) as `Female 50+`,&#xd;
+SUM(IF(linelist.regimenlinecoded,1,0)) as `Total`&#xd;
 &#xd;
 &#xd;
 &#xd;
@@ -66,40 +68,41 @@ patient.patient_id,&#xd;
 &#xd;
 person.gender as sex,&#xd;
 &#xd;
-TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) as age,&#xd;
+@age:=TIMESTAMPDIFF(YEAR,person.birthdate,:endDate) as age,&#xd;
 &#xd;
-IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) BETWEEN 0 AND 4,1,0) as age0to4,&#xd;
-IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) BETWEEN 5 AND 9,1,0) as age5to9,&#xd;
-IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) BETWEEN 10 AND 14,1,0) as age10to14,&#xd;
-IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) BETWEEN 15 AND 19,1,0) as age15to19,&#xd;
-IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) BETWEEN 20 AND 24,1,0) as age20to24,&#xd;
-IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) BETWEEN 25 AND 29,1,0) as age25to29,&#xd;
-IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) BETWEEN 30 AND 34,1,0) as age30to34,&#xd;
-IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) BETWEEN 35 AND 39,1,0) as age35to39,&#xd;
-IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) BETWEEN 40 AND 44,1,0) as age40to44,&#xd;
-IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) BETWEEN 45 AND 49,1,0) as age45to49,&#xd;
-IF(TIMESTAMPDIFF(YEAR,person.birthdate,CURDATE()) &gt;=50,1,0) as age50above,&#xd;
+IF(@age &lt;1,1,0) as ageless1,&#xd;
+IF(@age BETWEEN 1 AND 4,1,0) as age1to4,&#xd;
+IF(@age BETWEEN 5 AND 9,1,0) as age5to9,&#xd;
+IF(@age BETWEEN 10 AND 14,1,0) as age10to14,&#xd;
+IF(@age BETWEEN 15 AND 19,1,0) as age15to19,&#xd;
+IF(@age BETWEEN 20 AND 24,1,0) as age20to24,&#xd;
+IF(@age BETWEEN 25 AND 29,1,0) as age25to29,&#xd;
+IF(@age BETWEEN 30 AND 34,1,0) as age30to34,&#xd;
+IF(@age BETWEEN 35 AND 39,1,0) as age35to39,&#xd;
+IF(@age BETWEEN 40 AND 44,1,0) as age40to44,&#xd;
+IF(@age BETWEEN 45 AND 49,1,0) as age45to49,&#xd;
+IF(@age &gt;=50,1,0) as age50above,&#xd;
 &#xd;
-getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165708,27,curdate())) as regimenlinetext,&#xd;
+getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165708,27,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;))) as regimenlinetext,&#xd;
 &#xd;
-getcodedintvalueobs(getmaxconceptobsidwithformid(patient.patient_id,165708,27,curdate())) as regimenlinecoded,&#xd;
+getcodedintvalueobs(getmaxconceptobsidwithformid(patient.patient_id,165708,27,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;))) as regimenlinecoded,&#xd;
 &#xd;
-getcurrentregimen(getcodedintvalueobs(getmaxconceptobsidwithformid(patient.patient_id,165708,27,curdate())),getencounterid(getmaxconceptobsidwithformid(patient.patient_id,165708,27,curdate()))) as regimentext,&#xd;
+getcurrentregimen(getcodedintvalueobs(getmaxconceptobsidwithformid(patient.patient_id,165708,27,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;))),getencounterid(getmaxconceptobsidwithformid(patient.patient_id,165708,27,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;)))) as regimentext,&#xd;
 &#xd;
 getcodedintvalueobs(&#xd;
 &#xd;
 getobswithencounterid(&#xd;
-getencounterid(getmaxconceptobsidwithformid(patient.patient_id,165708,27,curdate()))&#xd;
-,getcodedintvalueobs(getmaxconceptobsidwithformid(patient.patient_id,165708,27,curdate())))) as regimencoded,&#xd;
-getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,curdate())) as lastpickupdate,&#xd;
+getencounterid(getmaxconceptobsidwithformid(patient.patient_id,165708,27,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;)))&#xd;
+,getcodedintvalueobs(getmaxconceptobsidwithformid(patient.patient_id,165708,27,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;))))) as regimencoded,&#xd;
+getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;))) as lastpickupdate,&#xd;
 &#xd;
 &#xd;
 &#xd;
-IFNULL (getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165470,13,curdate())),getoutcome(&#xd;
-getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,curdate())),&#xd;
-getconceptval(getmaxconceptobsidwithformid(patient.patient_id,162240,27,curdate()),159368,patient.patient_id) ,&#xd;
+IFNULL (getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165470,13,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;))),getoutcome(&#xd;
+getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;))),&#xd;
+getconceptval(getmaxconceptobsidwithformid(patient.patient_id,162240,27,STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;)),159368,patient.patient_id) ,&#xd;
 28,&#xd;
-IF(curdate() IS NULL or curdate() = &apos;&apos;, CURDATE(),curdate())&#xd;
+STR_TO_DATE (:endDate,&apos;%Y-%m-%d %H:%i:%s&apos;)&#xd;
 &#xd;
 ))  as statustext&#xd;
 &#xd;
