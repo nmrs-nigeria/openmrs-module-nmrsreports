@@ -32,7 +32,7 @@
                 "id": "RADET",
                 "extensionPointId": "org.openmrs.module.reportingui.reports.monitoring",
                 "type": "link",
-                "label": "RADET",
+                "label": "ART Line List",
                 "url": "reportingui/runReport.page?reportDefinition=45af899b-f6d2-4a46-b89a-e6b5696dd7de",
                 "order": 1,
                 "requiredPrivilege": "App: reportingui.reports"
@@ -124,7 +124,7 @@
                 "id": "HTS",
                 "extensionPointId": "org.openmrs.module.reportingui.reports.monitoring",
                 "type": "link",
-                "label": "HTS Exports",
+                "label": "HTS Line List",
                 "url": "reportingui/runReport.page?reportDefinition=65dba83d-b268-48af-a7ee-dd1626cd37a1",
                 "order": 11,
                 "requiredPrivilege": "App: reportingui.reports"
