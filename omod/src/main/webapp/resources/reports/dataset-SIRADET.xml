@@ -4,7 +4,7 @@
   <creator id="2" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
   <dateCreated id="3">2019-07-08 23:21:26 UTC</dateCreated>
   <changedBy reference="2"/>
-  <dateChanged id="4">2021-09-20 00:46:49 UTC</dateChanged>
+  <dateChanged id="4">2021-11-21 17:38:00 UTC</dateChanged>
   <parameters id="5">
     <org.openmrs.module.reporting.evaluation.parameter.Parameter id="6">
       <name>startDate</name>
@@ -153,16 +153,25 @@ getnumericvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,5089,14,:en
 DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,5089,14,:endDate)),&apos;%d-%b-%Y&apos;) as `CurrentWeightDate`,&#xd;
 getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,1659,14,:endDate)) as `TBStatus`,&#xd;
 DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,1659,14,:endDate)),&apos;%d-%b-%Y&apos;) as `TBStatusDate`,&#xd;
-DATE_FORMAT(getdatevalueobsid(getmaxconceptobsid(patient.patient_id,166096,:endDate)),&apos;%d-%b-%Y&apos;)&#xd;
-as `INHStartDate`,&#xd;
-DATE_FORMAT(getdatevalueobsid(getmaxconceptobsid(patient.patient_id,166096,:endDate)),&apos;%d-%b-%Y&apos;)&#xd;
-as `INHStopDate`,&#xd;
+DATE_FORMAT(getdatevalueobsid(getmaxconceptobsidwithformid(patient.patient_id,164852,56,:endDate)),&apos;%d-%b-%Y&apos;)&#xd;
+as `BaselineINHStartDate`,&#xd;
+DATE_FORMAT(getdatevalueobsid(getmaxconceptobsidwithformid(patient.patient_id,166096,56,:endDate)),&apos;%d-%b-%Y&apos;)&#xd;
+as `BaselineINHStopDate`,&#xd;
+&#xd;
+DATE_FORMAT(getdatevalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165994,53,:endDate)),&apos;%d-%b-%Y&apos;)&#xd;
+as `CurrentINHStartDate`,&#xd;
+&#xd;
+getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,166007,53,:endDate)) as `CurrentINHOutcome`,&#xd;
+&#xd;
+DATE_FORMAT(getdatevalueobsid(getmaxconceptobsidwithformid(patient.patient_id,166008,53,:endDate)),&apos;%d-%b-%Y&apos;)&#xd;
+as `CurrentINHOutcomeDate`,&#xd;
+&#xd;
 DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformidvaluecoded(patient.patient_id,165727,27,1679,:endDate)),&apos;%d-%b-%Y&apos;) &#xd;
 as `LastINHDispensedDate`,&#xd;
 DATE_FORMAT(getdatevalueobsid(getmaxconceptobsid(patient.patient_id,1113,:endDate)),&apos;%d-%b-%Y&apos;) &#xd;
-as `TBTreatmentStartDate`,&#xd;
+as `BaselineTBTreatmentStartDate`,&#xd;
 DATE_FORMAT(getdatevalueobsid(getmaxconceptobsid(patient.patient_id,159431,:endDate)),&apos;%d-%b-%Y&apos;)&#xd;
- as `TBTreatmentStopDate`,&#xd;
+ as `BaselineTBTreatmentStopDate`,&#xd;
  DATE_FORMAT(getencounterdate(getlastencounter(patient.patient_id,67,:endDate)),&apos;%d-%b-%Y&apos;) &#xd;
 as `LastViralLoadSampleCollectionFormDate`,&#xd;
 &#xd;
