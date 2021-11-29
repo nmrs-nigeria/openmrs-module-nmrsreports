@@ -4,7 +4,7 @@
   <creator id="2" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
   <dateCreated id="3">2020-09-28 04:46:28 UTC</dateCreated>
   <changedBy reference="2"/>
-  <dateChanged id="4">2021-09-01 13:19:45 UTC</dateChanged>
+  <dateChanged id="4">2021-09-27 03:17:50 UTC</dateChanged>
   <parameters id="5">
     <org.openmrs.module.reporting.evaluation.parameter.Parameter id="6">
       <name>startDate</name>
@@ -25,6 +25,10 @@
    pid1.identifier as HTSClientCode,&#xd;
    pid2.identifier as PepfarID,&#xd;
    pid3.identifier as HospID,&#xd;
+   person.gender as Sex,&#xd;
+   DATE_FORMAT(person.birthdate,&apos;%d-%b-%Y&apos;) as DOB,&#xd;
+   TIMESTAMPDIFF(YEAR,person.birthdate,curdate()) as CurrentAge,&#xd;
+   TIMESTAMPDIFF(YEAR,person.birthdate,enc.encounter_datetime) as AgeAtVisit,&#xd;
    pid4.identifier as RecencyID,&#xd;
    DATE_FORMAT(enc.encounter_datetime,&apos;%d-%b-%Y&apos;) as VisitDate,&#xd;
    visit.visit_id as VisitID,&#xd;
@@ -125,6 +129,7 @@
   FROM&#xd;
    obs&#xd;
    LEFT JOIN patient ON(patient.patient_id=obs.person_id and obs.voided=0 and patient.voided=0)&#xd;
+   LEFT JOIN person on(patient.patient_id=person.person_id and person.voided=0)&#xd;
    LEFT join encounter enc on(enc.encounter_id=obs.encounter_id and enc.voided=0 and obs.voided=0 and enc.form_id=10)&#xd;
    LEFT JOIN visit on (enc.visit_id=visit.visit_id and visit.voided=0)&#xd;
    left join concept_name cn1 on(obs.value_coded=cn1.concept_id and cn1.locale=&apos;en&apos; and cn1.locale_preferred=1)&#xd;
