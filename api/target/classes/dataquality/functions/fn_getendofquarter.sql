@@ -12,7 +12,8 @@ BEGIN
 	
 	
 	
-	SET fyear=IF(QUARTER(date_val)=4,YEAR(date_val)+1,YEAR(date_val));
+	/*SET fyear=IF(QUARTER(date_val)=4,YEAR(date_val)+1,YEAR(date_val));*/
+        SET fyear=YEAR(date_val);
 	SET fquarter=IF(QUARTER(date_val)=4,MOD(QUARTER(date_val)+1,4),QUARTER(date_val)+1);
 	
 	SELECT CASE  
