@@ -1,0 +1,92 @@
+<org.openmrs.module.reporting.dataset.definition.SqlDataSetDefinition id="1" uuid="a44fe663-b5ea-4961-a831-e7bc0acb847a" retired="false">
+  <name>AHDDataset</name>
+  <description>Variables for AHD</description>
+  <creator id="2" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
+  <dateCreated id="3">2022-06-06 01:28:55 UTC</dateCreated>
+  <changedBy reference="2"/>
+  <dateChanged id="4">2022-06-06 02:21:20 UTC</dateChanged>
+  <parameters id="5">
+    <org.openmrs.module.reporting.evaluation.parameter.Parameter id="6">
+      <name>startDate</name>
+      <label>Start Date</label>
+      <type>java.util.Date</type>
+      <required>true</required>
+    </org.openmrs.module.reporting.evaluation.parameter.Parameter>
+    <org.openmrs.module.reporting.evaluation.parameter.Parameter id="7">
+      <name>endDate</name>
+      <label>End Date</label>
+      <type>java.util.Date</type>
+      <required>true</required>
+    </org.openmrs.module.reporting.evaluation.parameter.Parameter>
+  </parameters>
+  <id>257</id>
+  <sqlQuery>SELECT&#xd;
+patient.patient_id,&#xd;
+pid1.identifier as `PatientUniqueID`, &#xd;
+pid2.identifier as `PatientHospitalNo`,&#xd;
+person.gender as `Sex`,&#xd;
+&#xd;
+TIMESTAMPDIFF(MONTH,getdatevalueobsid(getmaxconceptobsid(patient.patient_id,159599,:endDate)),getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,:endDate))) as MonthsOnART,&#xd;
+DATE_FORMAT(getdatevalueobsid(getmaxconceptobsid(patient.patient_id,159599,:endDate)),&apos;%d-%b-%Y&apos;) as `ARTStartDate`,&#xd;
+DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,:endDate)),&apos;%d-%b-%Y&apos;) as `LastPickupDate`,&#xd;
+getconceptval(getmaxconceptobsidwithformid(patient.patient_id,162240,27,:endDate),159368,patient.patient_id) as `DaysOfARVRefil`,&#xd;
+&#xd;
+DATE_FORMAT(getencounterdate(getlastencounter(patient.patient_id,69,:endDate)),&apos;%d-%b-%Y&apos;) &#xd;
+as `LastEACDate`,&#xd;
+&#xd;
+getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165708,27,:endDate)) as `CurrentRegimenLine`,&#xd;
+&#xd;
+getcurrentregimen(getcodedintvalueobs(getmaxconceptobsidwithformid(patient.patient_id,165708,27,:endDate)),getencounterid(getmaxconceptobsidwithformid(patient.patient_id,165708,27,:endDate))) as `CurrentRegimen`,&#xd;
+getnumericvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,856,21,:endDate)) as `CurrentViralLoad(c/ml)`,&#xd;
+DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,856,21,:endDate)),&apos;%d-%b-%Y&apos;) as `ViralLoadEncounterDate`,&#xd;
+getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165470,13,:endDate)) as PatientOutcome,&#xd;
+DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,165470,13,:endDate)),&apos;%d-%b-%Y&apos;) as PatientOutcomeDate,&#xd;
+&#xd;
+IFNULL (getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165470,13,:endDate)),getoutcome(&#xd;
+getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,:endDate)),&#xd;
+getconceptval(getmaxconceptobsidwithformid(patient.patient_id,162240,27,:endDate),159368,patient.patient_id) ,&#xd;
+28,&#xd;
+IF(:endDate IS NULL or :endDate = &apos;&apos;, CURDATE(),:endDate)&#xd;
+&#xd;
+))  as `CurrentARTStatus`,&#xd;
+&#xd;
+getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,167088,21,:endDate)) as CD4LFAResult,&#xd;
+DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,167088,21,:endDate)),&apos;%d-%b-%Y&apos;) as CD4LFAResultDate,&#xd;
+&#xd;
+getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,166697,21,:endDate)) as TBLFLAMResult,&#xd;
+DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,166697,21,:endDate)),&apos;%d-%b-%Y&apos;) as TBLFLAMResultDate,&#xd;
+getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,167090,21,:endDate)) as SerologyForCrAg,&#xd;
+&#xd;
+DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,167090,21,:endDate)),&apos;%d-%b-%Y&apos;) as SerologyForCrAgDate,&#xd;
+&#xd;
+getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,167082,21,:endDate)) as CSFForCrAg,&#xd;
+&#xd;
+DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,167082,21,:endDate)),&apos;%d-%b-%Y&apos;) as CSFForCrAgDate,&#xd;
+&#xd;
+DATE_FORMAT(getdatevalueobsid(getmaxconceptobsidwithformid(patient.patient_id,167091,21,:endDate)),&apos;%r&apos;) as `TimeCD4LFASampleCollected`,&#xd;
+DATE_FORMAT(getdatevalueobsid(getmaxconceptobsidwithformid(patient.patient_id,167092,21,:endDate)),&apos;%r&apos;) as `TimeCD4LFAResultReceived`,&#xd;
+DATE_FORMAT(getdatevalueobsid(getmaxconceptobsidwithformid(patient.patient_id,167093,21,:endDate)),&apos;%r&apos;) as `TimeSerologyForCrAgSampleCollected`,&#xd;
+DATE_FORMAT(getdatevalueobsid(getmaxconceptobsidwithformid(patient.patient_id,167094,21,:endDate)),&apos;%r&apos;) as `TimeSerologyForCrAgResultReceived`,&#xd;
+gettextvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165394,21,:endDate)) as `LaboratoryRegistrationNo`,&#xd;
+getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,167079,21,:endDate)) as IndicationForAHD&#xd;
+&#xd;
+&#xd;
+&#xd;
+from &#xd;
+&#xd;
+patient &#xd;
+INNER JOIN (&#xd;
+&#xd;
+select DISTINCT obs.person_id from obs&#xd;
+inner join encounter on(encounter.encounter_id=obs.encounter_id and encounter.voided=0) where obs.voided=0&#xd;
+and obs.concept_id IN(167088,166697,167090,167082,167079)&#xd;
+and encounter.encounter_datetime&lt;=:endDate&#xd;
+) as target_patients on(target_patients.person_id=patient.patient_id)&#xd;
+&#xd;
+&#xd;
+LEFT JOIN patient_identifier pid1 on(pid1.patient_id=patient.patient_id and patient.voided=0 and pid1.identifier_type=4 and pid1.voided=0)&#xd;
+LEFT JOIN patient_identifier pid2 on(pid2.patient_id=patient.patient_id and patient.voided=0 and pid2.identifier_type=5 and pid2.voided=0)&#xd;
+LEFT JOIN person on(person.person_id=patient.patient_id and person.voided=0)&#xd;
+&#xd;
+WHERE pid1.identifier IS NOT NULL and patient.voided=0 </sqlQuery>
+</org.openmrs.module.reporting.dataset.definition.SqlDataSetDefinition>
