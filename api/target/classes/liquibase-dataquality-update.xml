@@ -204,6 +204,13 @@
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
+    <!-- Updated to include bug corrections -->
+    <changeSet id="fn_getendofquarter_20220606_0209" author="Damilare" runOnChange="true">
+        <sqlFile path="dataquality/functions/fn_getendofquarter.sql"
+                 stripComments="true"
+                 splitStatements="true"
+                 endDelimiter="/0xd"/>
+    </changeSet>
     
     
     <!-- Error - Pharmacy Forms Without Duration -->
