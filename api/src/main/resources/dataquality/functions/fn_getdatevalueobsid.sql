@@ -1,9 +1,9 @@
 DROP FUNCTION IF EXISTS getdatevalueobsid;
 /0xd
-CREATE FUNCTION `getdatevalueobsid`(`obsid` int) RETURNS date
+CREATE FUNCTION `getdatevalueobsid`(`obsid` int) RETURNS datetime
 BEGIN
 
-    DECLARE val DATE;
+    DECLARE val DATETIME;
 
     SELECT  obs.value_datetime into val from obs WHERE  obs.obs_id=obsid;
 
