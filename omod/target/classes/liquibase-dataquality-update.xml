@@ -197,6 +197,44 @@
                  endDelimiter="/0xd"/>
     </changeSet>
     
+    <!-- Updating the RADET query to include CurrentARTStatusWithPillBalance -->
+    <changeSet id="fn_getoutcomewithpillbalanceandfrequency_20220606_0209" author="Damilare" runOnChange="true">
+        <sqlFile path="dataquality/functions/fn_getoutcomewithpillbalanceandfrequency.sql"
+                 stripComments="true"
+                 splitStatements="true"
+                 endDelimiter="/0xd"/>
+    </changeSet>
+    <!-- Updated to include bug corrections -->
+    <changeSet id="fn_getendofquarter_20220606_0213" author="Damilare" runOnChange="true">
+        <sqlFile path="dataquality/functions/fn_getendofquarter.sql"
+                 stripComments="true"
+                 splitStatements="true"
+                 endDelimiter="/0xd"/>
+    </changeSet>
+    <!-- Updated to accommodate datetime data types instead of only date -->
+    <changeSet id="fn_getdatevalueobsid_20220606_0216" author="Damilare" runOnChange="true">
+        <sqlFile path="dataquality/functions/fn_getdatevalueobsid.sql"
+                 stripComments="true"
+                 splitStatements="true"
+                 endDelimiter="/0xd"/>
+    </changeSet>
+    
+    <!-- Updated to accommodate retrieving the obs_id of obs of other datatypes that share the same obs_group_id -->
+    <changeSet id="fn_getconceptvalobsid_20220606_0219" author="Damilare" runOnChange="true">
+        <sqlFile path="dataquality/functions/fn_getconceptvalobsid.sql"
+                 stripComments="true"
+                 splitStatements="true"
+                 endDelimiter="/0xd"/>
+    </changeSet>
+    <!-- Updated to accommodate large viral loads too big for an integer -->
+    <changeSet id="fn_getnumericvalueobsid_20220606_0221" author="Damilare" runOnChange="true">
+        <sqlFile path="dataquality/functions/fn_getnumericvalueobsid.sql"
+                 stripComments="true"
+                 splitStatements="true"
+                 endDelimiter="/0xd"/>
+    </changeSet>
+    
+    
     
     <!-- Error - Pharmacy Forms Without Duration -->
     <changeSet id="report_update_20212702540" author="Bright">
@@ -823,6 +861,19 @@
                 REPLACE INTO `reporting_report_design` (`id`,`uuid`,`name`,`description`,`renderer_type`,`properties`,`creator`,`date_created`,`changed_by`,`date_changed`,`retired`,`retired_by`,`date_retired`,`retire_reason`,`report_definition_uuid`) VALUES (120,'251d12d6-43a5-4816-be6f-cdb63efc5caf','Excel','Excel','org.openmrs.module.reporting.report.renderer.XlsReportRenderer','#Fri Sep 10 00:23:37 WAT 2021\r\n',1,'2021-09-10 00:23:37',NULL,NULL,0,NULL,NULL,NULL,'8ff55386-a22d-4c68-8389-620301d40dc5');
                 REPLACE INTO `reporting_report_design` (`id`,`uuid`,`name`,`description`,`renderer_type`,`properties`,`creator`,`date_created`,`changed_by`,`date_changed`,`retired`,`retired_by`,`date_retired`,`retire_reason`,`report_definition_uuid`) VALUES (121,'a58a2fbe-ef94-4aa9-bbf4-8bf480e254d3','Web','Web','org.openmrs.module.reporting.report.renderer.SimpleHtmlReportRenderer','#Fri Sep 10 00:23:58 WAT 2021\r\n',1,'2021-09-10 00:23:58',NULL,NULL,0,NULL,NULL,NULL,'8ff55386-a22d-4c68-8389-620301d40dc5');
 
+		]]>
+        </sql>
+        
+    </changeSet>
+    
+    <!-- Force export type for AHD Line List to show -->
+    <changeSet id='report_update_202206060334' author='Bright'>
+        <sql>
+            <![CDATA[
+	        REPLACE INTO `reporting_report_design` (`id`,`uuid`,`name`,`description`,`renderer_type`,`properties`,`creator`,`date_created`,`changed_by`,`date_changed`,`retired`,`retired_by`,`date_retired`,`retire_reason`,`report_definition_uuid`) VALUES (122,'d43e1951-6f6a-4841-83d3-5ee3cb95924b','CSV',NULL,'org.openmrs.module.reporting.report.renderer.CsvReportRenderer','#Mon Jun 06 03:25:46 WAT 2022\r\n',1,'2022-06-06 03:25:46',NULL,NULL,0,NULL,NULL,NULL,'714d99ef-7c4d-4b50-8e92-5fc00e8b0ab5');
+                REPLACE INTO `reporting_report_design` (`id`,`uuid`,`name`,`description`,`renderer_type`,`properties`,`creator`,`date_created`,`changed_by`,`date_changed`,`retired`,`retired_by`,`date_retired`,`retire_reason`,`report_definition_uuid`) VALUES (123,'a5f817f3-6377-4e95-ac00-79f59fc6afc1','Excel',NULL,'org.openmrs.module.reporting.report.renderer.XlsReportRenderer','#Mon Jun 06 03:26:02 WAT 2022\r\n',1,'2022-06-06 03:26:02',NULL,NULL,0,NULL,NULL,NULL,'714d99ef-7c4d-4b50-8e92-5fc00e8b0ab5');
+                REPLACE INTO `reporting_report_design` (`id`,`uuid`,`name`,`description`,`renderer_type`,`properties`,`creator`,`date_created`,`changed_by`,`date_changed`,`retired`,`retired_by`,`date_retired`,`retire_reason`,`report_definition_uuid`) VALUES (124,'df574f12-691e-4c9c-854b-23174b399668','Web',NULL,'org.openmrs.module.reporting.report.renderer.SimpleHtmlReportRenderer','#Mon Jun 06 03:26:18 WAT 2022\r\n',1,'2022-06-06 03:26:18',NULL,NULL,0,NULL,NULL,NULL,'714d99ef-7c4d-4b50-8e92-5fc00e8b0ab5');
+        
 		]]>
         </sql>
         

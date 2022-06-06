@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="org.openmrs.module.nmrsreports.api.NmrsreportsServiceTest" time="0.729" errors="0" skipped="0">
+<testsuite tests="1" failures="0" name="org.openmrs.module.nmrsreports.api.NmrsreportsServiceTest" time="0.777" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_111\jre\bin"/>
@@ -61,5 +61,5 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="org.openmrs.module.nmrsreports.api.NmrsreportsServiceTest" name="saveItem_shouldSetOwnerIfNotSet" time="0.708"/>
+  <testcase classname="org.openmrs.module.nmrsreports.api.NmrsreportsServiceTest" name="saveItem_shouldSetOwnerIfNotSet" time="0.754"/>
 </testsuite>
