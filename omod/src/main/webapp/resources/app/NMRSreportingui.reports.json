@@ -230,7 +230,18 @@
                 "url": "reportingui/runReport.page?reportDefinition=4a9a49af-9c4e-42ae-8e9c-0727cf104a92",
                 "order": 23,
                 "requiredPrivilege": "App: reportingui.reports"
+            },
+{
+                "id": "AHD Line List",
+                "extensionPointId": "org.openmrs.module.reportingui.reports.monitoring",
+                "type": "link",
+                "label": "AHD Line List",
+                "url": "reportingui/runReport.page?reportDefinition=714d99ef-7c4d-4b50-8e92-5fc00e8b0ab5",
+                "order": 24,
+                "requiredPrivilege": "App: reportingui.reports"
             }
+
+
 
 
         
