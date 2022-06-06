@@ -205,12 +205,35 @@
                  endDelimiter="/0xd"/>
     </changeSet>
     <!-- Updated to include bug corrections -->
-    <changeSet id="fn_getendofquarter_20220606_0209" author="Damilare" runOnChange="true">
+    <changeSet id="fn_getendofquarter_20220606_0213" author="Damilare" runOnChange="true">
         <sqlFile path="dataquality/functions/fn_getendofquarter.sql"
                  stripComments="true"
                  splitStatements="true"
                  endDelimiter="/0xd"/>
     </changeSet>
+    <!-- Updated to accommodate datetime data types instead of only date -->
+    <changeSet id="fn_getdatevalueobsid_20220606_0216" author="Damilare" runOnChange="true">
+        <sqlFile path="dataquality/functions/fn_getdatevalueobsid.sql"
+                 stripComments="true"
+                 splitStatements="true"
+                 endDelimiter="/0xd"/>
+    </changeSet>
+    
+    <!-- Updated to accommodate retrieving the obs_id of obs of other datatypes that share the same obs_group_id -->
+    <changeSet id="fn_getconceptvalobsid_20220606_0219" author="Damilare" runOnChange="true">
+        <sqlFile path="dataquality/functions/fn_getconceptvalobsid.sql"
+                 stripComments="true"
+                 splitStatements="true"
+                 endDelimiter="/0xd"/>
+    </changeSet>
+    <!-- Updated to accommodate large viral loads too big for an integer -->
+    <changeSet id="fn_getnumericvalueobsid_20220606_0221" author="Damilare" runOnChange="true">
+        <sqlFile path="dataquality/functions/fn_getnumericvalueobsid.sql"
+                 stripComments="true"
+                 splitStatements="true"
+                 endDelimiter="/0xd"/>
+    </changeSet>
+    
     
     
     <!-- Error - Pharmacy Forms Without Duration -->
