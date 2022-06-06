@@ -4,7 +4,7 @@
   <creator id="2" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
   <dateCreated id="3">2019-07-08 23:21:26 UTC</dateCreated>
   <changedBy reference="2"/>
-  <dateChanged id="4">2021-11-21 17:38:00 UTC</dateChanged>
+  <dateChanged id="4">2022-06-06 00:59:02 UTC</dateChanged>
   <parameters id="5">
     <org.openmrs.module.reporting.evaluation.parameter.Parameter id="6">
       <name>startDate</name>
@@ -208,8 +208,22 @@ getconceptval(getmaxconceptobsidwithformid(patient.patient_id,162240,27,getendof
 28,&#xd;
 IF(:endDate IS NULL or :endDate = &apos;&apos;, CURDATE(),getendofquarter(DATE_SUB(:endDate,INTERVAL 3 MONTH)))&#xd;
 )&#xd;
-)  as `ARTStatusPreviousQuarter`&#xd;
+)  as `ARTStatusPreviousQuarter`,&#xd;
 &#xd;
+getconceptval(getmaxconceptobsidwithformid(patient.patient_id,162240,27,:endDate),160856,patient.patient_id) as `QuantityOfARVDispensedLastVisit`,&#xd;
+&#xd;
+getcodedvalueobsid(getconceptvalobsid(getmaxconceptobsidwithformid(patient.patient_id,162240,27,:endDate),165723,patient.patient_id)) as `FrequencyOfARVDispensedLastVisit`,&#xd;
+&#xd;
+IFNULL (getcodedvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,165470,13,:endDate)),getoutcomewithpillbalanceandfrequency(&#xd;
+getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,162240,27,:endDate)),&#xd;
+getconceptval(getmaxconceptobsidwithformid(patient.patient_id,162240,27,:endDate),159368,patient.patient_id) ,&#xd;
+28,&#xd;
+getnumericvalueobsid(getobswithencounterid(getencounterid(getmaxconceptobsidwithformid(patient.patient_id,162240,27,:endDate)),166406)),&#xd;
+getconceptvalobsid(getmaxconceptobsidwithformid(patient.patient_id,162240,27,:endDate),165723,patient.patient_id),&#xd;
+&#xd;
+IF(:endDate IS NULL or :endDate = &apos;&apos;, CURDATE(),:endDate)&#xd;
+&#xd;
+))  as `CurrentARTStatusWithPillBalance`&#xd;
 &#xd;
 &#xd;
 &#xd;
