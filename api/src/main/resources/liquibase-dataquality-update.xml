@@ -873,8 +873,7 @@
 	        REPLACE INTO `reporting_report_design` (`id`,`uuid`,`name`,`description`,`renderer_type`,`properties`,`creator`,`date_created`,`changed_by`,`date_changed`,`retired`,`retired_by`,`date_retired`,`retire_reason`,`report_definition_uuid`) VALUES (122,'d43e1951-6f6a-4841-83d3-5ee3cb95924b','CSV',NULL,'org.openmrs.module.reporting.report.renderer.CsvReportRenderer','#Mon Jun 06 03:25:46 WAT 2022\r\n',1,'2022-06-06 03:25:46',NULL,NULL,0,NULL,NULL,NULL,'714d99ef-7c4d-4b50-8e92-5fc00e8b0ab5');
                 REPLACE INTO `reporting_report_design` (`id`,`uuid`,`name`,`description`,`renderer_type`,`properties`,`creator`,`date_created`,`changed_by`,`date_changed`,`retired`,`retired_by`,`date_retired`,`retire_reason`,`report_definition_uuid`) VALUES (123,'a5f817f3-6377-4e95-ac00-79f59fc6afc1','Excel',NULL,'org.openmrs.module.reporting.report.renderer.XlsReportRenderer','#Mon Jun 06 03:26:02 WAT 2022\r\n',1,'2022-06-06 03:26:02',NULL,NULL,0,NULL,NULL,NULL,'714d99ef-7c4d-4b50-8e92-5fc00e8b0ab5');
                 REPLACE INTO `reporting_report_design` (`id`,`uuid`,`name`,`description`,`renderer_type`,`properties`,`creator`,`date_created`,`changed_by`,`date_changed`,`retired`,`retired_by`,`date_retired`,`retire_reason`,`report_definition_uuid`) VALUES (124,'df574f12-691e-4c9c-854b-23174b399668','Web',NULL,'org.openmrs.module.reporting.report.renderer.SimpleHtmlReportRenderer','#Mon Jun 06 03:26:18 WAT 2022\r\n',1,'2022-06-06 03:26:18',NULL,NULL,0,NULL,NULL,NULL,'714d99ef-7c4d-4b50-8e92-5fc00e8b0ab5');
-
-                
+        
 		]]>
         </sql>
         
