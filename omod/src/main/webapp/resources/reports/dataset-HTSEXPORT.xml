@@ -4,7 +4,7 @@
   <creator id="2" uuid="1c3db49d-440a-11e6-a65c-00e04c680037"/>
   <dateCreated id="3">2020-09-28 04:46:28 UTC</dateCreated>
   <changedBy reference="2"/>
-  <dateChanged id="4">2021-09-27 03:17:50 UTC</dateChanged>
+  <dateChanged id="4">2022-05-30 11:41:37 UTC</dateChanged>
   <parameters id="5">
     <org.openmrs.module.reporting.evaluation.parameter.Parameter id="6">
       <name>startDate</name>
@@ -21,21 +21,45 @@
   </parameters>
   <id>233</id>
   <sqlQuery>SELECT&#xd;
-   global_property.property_value as DatimCode,&#xd;
+   gp1.property_value as IP,&#xd;
+   nigeria_datimcode_mapping.state_name as `Facility State`,&#xd;
+   nigeria_datimcode_mapping.lga_name as `Facility LGA`,&#xd;
+   gp3.property_value as `Facility`,&#xd;
+   gp2.property_value as `DATIM Code`,&#xd;
+   person_address.state_province as `Client State`,&#xd;
+   person_address.city_village as `Client LGA`,&#xd;
    pid1.identifier as HTSClientCode,&#xd;
    pid2.identifier as PepfarID,&#xd;
-   pid3.identifier as HospID,&#xd;
-   person.gender as Sex,&#xd;
-   DATE_FORMAT(person.birthdate,&apos;%d-%b-%Y&apos;) as DOB,&#xd;
-   TIMESTAMPDIFF(YEAR,person.birthdate,curdate()) as CurrentAge,&#xd;
-   TIMESTAMPDIFF(YEAR,person.birthdate,enc.encounter_datetime) as AgeAtVisit,&#xd;
+   pid3.identifier as HospID, &#xd;
    pid4.identifier as RecencyID,&#xd;
+   person.gender as Sex,&#xd;
+   DATE_FORMAT(person.birthdate,&apos;%d-%b-%Y&apos;) as `Date Of Birth`,  &#xd;
+   TIMESTAMPDIFF(YEAR,person.birthdate,curdate()) as CurrentAge,&#xd;
+  &#xd;
+     CASE             &#xd;
+             WHEN TIMESTAMPDIFF(YEAR,person.birthdate,curdate()) &lt; 1 THEN &apos;&lt;1&apos;&#xd;
+             WHEN TIMESTAMPDIFF(YEAR,person.birthdate,curdate()) BETWEEN 1 AND 4 THEN &apos;1 - 4&apos;&#xd;
+             WHEN TIMESTAMPDIFF(YEAR,person.birthdate,curdate()) BETWEEN 5 AND 9 THEN &apos;5 - 9&apos;&#xd;
+             WHEN TIMESTAMPDIFF(YEAR,person.birthdate,curdate()) BETWEEN 10 AND 14 THEN &apos;10 - 14&apos;&#xd;
+             WHEN TIMESTAMPDIFF(YEAR,person.birthdate,curdate()) BETWEEN 15 AND 19 THEN &apos;15 - 19&apos;&#xd;
+             WHEN TIMESTAMPDIFF(YEAR,person.birthdate,curdate()) BETWEEN 20 AND 24 THEN &apos;20 - 24&apos;&#xd;
+             WHEN TIMESTAMPDIFF(YEAR,person.birthdate,curdate()) BETWEEN 25 AND 29 THEN &apos;25 - 29&apos;&#xd;
+             WHEN TIMESTAMPDIFF(YEAR,person.birthdate,curdate()) BETWEEN 30 AND 34 THEN &apos;30 - 34&apos;&#xd;
+             WHEN TIMESTAMPDIFF(YEAR,person.birthdate,curdate()) BETWEEN 35 AND 39 THEN &apos;35 - 39&apos;&#xd;
+             WHEN TIMESTAMPDIFF(YEAR,person.birthdate,curdate()) BETWEEN 40 AND 44 THEN &apos;40 - 44&apos;&#xd;
+             WHEN TIMESTAMPDIFF(YEAR,person.birthdate,curdate()) BETWEEN 45 AND 49 THEN &apos;45 - 49&apos;&#xd;
+             WHEN TIMESTAMPDIFF(YEAR,person.birthdate,curdate()) &gt; 49 THEN &apos;50+&apos;&#xd;
+             &#xd;
+             &#xd;
+         END AS `Age Group`,&#xd;
+&#xd;
+   TIMESTAMPDIFF(YEAR,person.birthdate,enc.encounter_datetime) as AgeAtVisit,   &#xd;
    DATE_FORMAT(enc.encounter_datetime,&apos;%d-%b-%Y&apos;) as VisitDate,&#xd;
-   visit.visit_id as VisitID,&#xd;
-   MAX(IF(obs.concept_id=166136,cn1.name, NULL))&#xd;
-   as `KindOfHTS`,&#xd;
    MAX(IF(obs.concept_id=165839,cn1.name, NULL))&#xd;
    as `Setting`,&#xd;
+   visit.visit_id as VisitID,&#xd;
+   MAX(IF(obs.concept_id=166136,cn1.name, NULL))&#xd;
+   as `KindOfHTS`,   &#xd;
    MAX(IF(obs.concept_id=165966,obs.value_text, NULL))&#xd;
    as `SettingOthersSpecify`,&#xd;
    MAX(IF(obs.concept_id= 165790,cn1.name, NULL))&#xd;
@@ -58,7 +82,7 @@
    as IndexClientID,&#xd;
    MAX(IF(obs.concept_id=165976,cn1.name, NULL)) as &#xd;
    `IsClientRetestingForResultVerification`,&#xd;
-   MAX(IF(obs.concept_id=166136,cn1.name, NULL)) as &#xd;
+   MAX(IF(obs.concept_id=165799,cn1.name, NULL)) as &#xd;
    `PreviouslyTestedHIVNegative`,&#xd;
    MAX(IF(obs.concept_id=1434,IF(obs.value_coded is not null,IF(obs.value_coded=1,&quot;Yes&quot;,&quot;No&quot;),&quot;&quot;), NULL)) as  `ClientPregnant`, &#xd;
    MAX(IF(obs.concept_id= 165801,cn1.name, NULL)) as &#xd;
@@ -71,7 +95,7 @@
    `ClientInformedAboutPossibleTestResults`,&#xd;
    MAX(IF(obs.concept_id= 1710,IF(obs.value_coded is not null,IF(obs.value_coded=1,&quot;Yes&quot;,&quot;No&quot;),&quot;&quot;), NULL)) as &#xd;
    `InformedConsentForHivTestingGiven`,&#xd;
-   MAX(IF(obs.concept_id=159218,cn1.name, NULL)) as &#xd;
+   MAX(IF(obs.concept_id=165800,cn1.name, NULL)) as &#xd;
    `EverHadSexualIntercourse`,&#xd;
    MAX(IF(obs.concept_id=1063,IF(obs.value_coded is not null,IF(obs.value_coded=1,&quot;Yes&quot;,&quot;No&quot;),&quot;&quot;), NULL)) as&#xd;
    `BloodTransfusioninLast3Months`,&#xd;
@@ -88,23 +112,57 @@
    MAX(IF(obs.concept_id=140238,cn1.name, NULL)) as `Fever`,&#xd;
    MAX(IF(obs.concept_id=133027,IF(obs.value_coded is not null,IF(obs.value_coded=1,&quot;Yes&quot;,&quot;No&quot;),&quot;&quot;), NULL)) as  `NightSweats`,&#xd;
    MAX(IF(obs.concept_id=124068,cn1.name, NULL)) as  `ContactWithTBPatient`,&#xd;
-   MAX(IF(obs.concept_id=165808,obs.value_numeric, NULL)) as  `TBScreeningScore`,&#xd;
+&#xd;
+  count(&#xd;
+CASE &#xd;
+WHEN obs.concept_id in (832,143264,140238,133027,124068) AND obs.value_coded in (1,1065) THEN 1&#xd;
+END) &#xd;
+as `TBScreeningScore`,&#xd;
+&#xd;
    MAX(IF(obs.concept_id=165809,cn1.name, NULL)) as &#xd;
    `ComplaintsofVaginalDischargeorBurningWhenUrinating`,&#xd;
    MAX(IF(obs.concept_id=165810,cn1.name, NULL)) as &#xd;
    `ComplaintsofLowerAbdominalPainsWithorWithoutVaginalDischarge`,&#xd;
    MAX(IF(obs.concept_id=165813,cn1.name, NULL)) as &#xd;
    `ComplaintsofGenitalSoreOrSwollenInguinalLymphNodesWithorWithoutPains`,&#xd;
-   MAX(IF(obs.concept_id=165814,obs.value_numeric, NULL)) as &#xd;
-   `STIScreeningScore`,&#xd;
-  MAX(IF(obs.concept_id=165807,obs.value_numeric, NULL)) as `RiskAssesmentScore`,&#xd;
+&#xd;
+  count(&#xd;
+CASE &#xd;
+WHEN obs.concept_id in (165809,165810,165813) AND obs.value_coded =1065 THEN 1&#xd;
+END) &#xd;
+as `STIScreeningScore`,&#xd;
+&#xd;
+  count(&#xd;
+CASE &#xd;
+WHEN obs.concept_id in (165800,1063,159218,165803,164809,165806) AND obs.value_coded in (1,1065) THEN 1&#xd;
+END) &#xd;
+as `RiskAssesmentScore`,&#xd;
    MAX(IF(obs.concept_id=165840,cn1.name, NULL)) as `ScreeningTestResult`,&#xd;
    MAX(IF(obs.concept_id=165844,obs.value_datetime, NULL)) as `ScreeningTestDate`,&#xd;
    MAX(IF(obs.concept_id=165841,cn1.name, NULL)) as `ConfirmatoryTestResult`,&#xd;
-  MAX(IF(obs.concept_id=165845,cn1.name, NULL)) as  `ConfirmatoryTestDate`,&#xd;
+  MAX(IF(obs.concept_id=165845,obs.value_datetime, NULL)) as  `ConfirmatoryTestDate`,&#xd;
   MAX(IF(obs.concept_id=165842,cn1.name, NULL)) as `TieBreaker`,&#xd;
   MAX(IF(obs.concept_id=165846,obs.value_datetime, NULL)) as `TieBreakerDate`,&#xd;
    MAX(IF(obs.concept_id=165843,cn1.name, NULL)) as `FinalResult`,&#xd;
+   MAX(IF(obs.concept_id= 165805,IF(obs.value_coded is not null,IF(obs.value_coded=1066,&quot;No&quot;,&quot;Yes&quot;),&quot;&quot;), NULL)) as &#xd;
+   `OPT Out of RTRI`,&#xd;
+   MAX(IF(obs.concept_id=166216,cn1.name, NULL)) as `Recency Test Name`,&#xd;
+   MAX(IF(obs.concept_id=165850,obs.value_datetime, NULL)) as `Recency Test Date`,&#xd;
+   MAX(IF(obs.concept_id=166212,cn1.name, NULL)) as `Control Line`,&#xd;
+   MAX(IF(obs.concept_id=166243,cn1.name, NULL)) as `Verification Line`,&#xd;
+   MAX(IF(obs.concept_id=166211,cn1.name, NULL)) as `Longterm Line`,&#xd;
+   MAX(IF(obs.concept_id=166213,cn1.name, NULL)) as `Recency Interpretation`,&#xd;
+&#xd;
+   MAX(IF(obs.concept_id=166244,cn1.name, NULL)) as `HasViralLoadBeenRequested`,&#xd;
+&#xd;
+&#xd;
+   MAX(IF(obs.concept_id=159951,obs.value_datetime, NULL)) as `Date Sample Collected`,&#xd;
+   MAX(IF(obs.concept_id=165988,obs.value_datetime, NULL)) as `Date Sample Sent`,&#xd;
+   getnumericvalueobsid(getmaxconceptobsidwithformid(patient.patient_id,856,10,:endDate)) as `Viral Load Result`,&#xd;
+   MAX(IF(obs.concept_id=166241,cn1.name, NULL)) as `Viral Load Result Classification`,&#xd;
+   DATE_FORMAT(getobsdatetime(getmaxconceptobsidwithformid(patient.patient_id,856,10,:endDate)),&apos;%d-%b-%Y&apos;) as `Date Of Viral Load Result`,&#xd;
+   MAX(IF(obs.concept_id=166233,cn1.name, NULL)) as `PCR Lab`,&#xd;
+   MAX(IF(obs.concept_id=166214,cn1.name, NULL)) as `Final Recency Result`,&#xd;
    MAX(IF(obs.concept_id=165881,cn1.name, NULL)) as  `HaveYouBeenTestedforHivBeforeWithinThisYear`,&#xd;
    MAX(IF(obs.concept_id=165818,cn1.name, NULL)) as `HIVRequestandResultFormSignedbyTester`,&#xd;
    MAX(IF(obs.concept_id=164848,cn1.name, NULL)) as `ClientReceivedHIVTestResult`,&#xd;
@@ -119,7 +177,7 @@
     MAX(IF(obs.concept_id=165821,cn1.name, NULL)) as PostTestDisclosurePlanDeveloped,&#xd;
     MAX(IF(obs.concept_id=165822,cn1.name, NULL)) as WillBringPartnerForHivTesting,&#xd;
     MAX(IF(obs.concept_id=165823,cn1.name, NULL)) as WillBringOwnChildrenLessThan5YearsforHIVTesting,&#xd;
-    MAX(IF(obs.concept_id=165841,cn1.name, NULL)) as  ProvidedWithInformationonFPandDualContraception,&#xd;
+    MAX(IF(obs.concept_id=1382,cn1.name, NULL)) as  ProvidedWithInformationonFPandDualContraception,&#xd;
    MAX(IF(obs.concept_id=1382,cn1.name, NULL)) as CorrectCondomUseDemonstrated,&#xd;
    MAX(IF(obs.concept_id=159777,cn1.name, NULL)) as CondomsProvidedToClient,&#xd;
     MAX(IF(obs.concept_id=166284,IF(obs.value_coded is not null,IF(obs.value_coded=1,&quot;Yes&quot;,&quot;No&quot;),&quot;&quot;), NULL)) as KeyPopulation,&#xd;
@@ -130,16 +188,18 @@
    obs&#xd;
    LEFT JOIN patient ON(patient.patient_id=obs.person_id and obs.voided=0 and patient.voided=0)&#xd;
    LEFT JOIN person on(patient.patient_id=person.person_id and person.voided=0)&#xd;
-   LEFT join encounter enc on(enc.encounter_id=obs.encounter_id and enc.voided=0 and obs.voided=0 and enc.form_id=10)&#xd;
+   LEFT join encounter enc on(enc.encounter_id=obs.encounter_id and enc.voided=0 and obs.voided=0 and enc.form_id IN (10,75)) &#xd;
    LEFT JOIN visit on (enc.visit_id=visit.visit_id and visit.voided=0)&#xd;
    left join concept_name cn1 on(obs.value_coded=cn1.concept_id and cn1.locale=&apos;en&apos; and cn1.locale_preferred=1)&#xd;
+   LEFT JOIN person_address on (obs.person_id=person_address.person_id and person_address.voided=0)&#xd;
    LEFT JOIN patient_identifier pid1 on(pid1.patient_id=patient.patient_id and patient.voided=0 and pid1.identifier_type=8 and pid1.voided=0)&#xd;
    LEFT JOIN patient_identifier pid2 on(pid2.patient_id=patient.patient_id and patient.voided=0 and pid2.identifier_type=4 and pid2.voided=0)&#xd;
    LEFT JOIN patient_identifier pid3 on(pid3.patient_id=patient.patient_id and patient.voided=0 and pid3.identifier_type=5 and pid3.voided=0)&#xd;
    LEFT JOIN patient_identifier pid4 on(pid4.patient_id=patient.patient_id and patient.voided=0 and pid4.identifier_type=10 and pid4.voided=0)&#xd;
-   LEFT JOIN global_property on(global_property.property=&apos;facility_datim_code&apos;)&#xd;
+   LEFT JOIN global_property gp1 on(gp1.property=&apos;partner_short_name&apos;)   &#xd;
+   LEFT JOIN global_property gp2 on(gp2.property=&apos;facility_datim_code&apos;)&#xd;
+    LEFT JOIN global_property gp3 on(gp3.property=&apos;Facility_Name&apos;)&#xd;
+   LEFT JOIN nigeria_datimcode_mapping on(gp2.property_value=nigeria_datimcode_mapping.datim_code)&#xd;
    WHERE patient.voided=0 and enc.voided=0 and enc.encounter_datetime BETWEEN :startDate and :endDate&#xd;
-   GROUP BY patient.patient_id, enc.encounter_id;&#xd;
-   &#xd;
-</sqlQuery>
+   GROUP BY patient.patient_id;</sqlQuery>
 </org.openmrs.module.reporting.dataset.definition.SqlDataSetDefinition>
